@@ -19,10 +19,7 @@ function Wrap_Index(ind, length) {
 }
 
 // Get file path from a list of files at an increment from the current file path
-function Get_File(increment) {
-    cur_file = Cur_File
-    cur_dir = Cur_Dir
-    file_list = Cur_Files
+function Get_File(cur_file, cur_dir, file_list, increment) {
 
     cur_ind = file_list.indexOf(cur_file)
     ind = Wrap_Index(cur_ind + increment, file_list.length)
@@ -47,10 +44,10 @@ ipcRenderer.on("Open", (event, file_path) => {
 document.addEventListener('keydown', (e) => {
     switch (e.key) {
         case 'ArrowRight':
-            Open_File(Get_File(1))
+            Open_File(Get_File(Cur_File, Cur_Dir, Cur_Files, 1))
             break
         case 'ArrowLeft':
-            Open_File(Get_File(-1))
+            Open_File(Get_File(Cur_File, Cur_Dir, Cur_Files, -1))
             break
         default:
     }
