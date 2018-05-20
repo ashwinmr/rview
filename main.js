@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, Menu, dialog, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -13,6 +13,26 @@ app.on('ready', function createWindow() {
         protocol: 'file:',
         slashes: true
     }))
+
+    // Create the menu
+    const menu = Menu.buildFromTemplate([{
+        label: 'File',
+        submenu: [{
+            label: 'Open',
+            click() {
+                dialog.showOpenDialog({
+                        title: "Select Image",
+                    },
+                    (file_paths) => {
+                        win.webContents.send("Display_Image", file_paths)
+                    }
+                )
+            }
+        }]
+    }])
+
+    // Set menu
+    Menu.setApplicationMenu(menu)
 
     // Open the DevTools.
     // win.webContents.openDevTools()
