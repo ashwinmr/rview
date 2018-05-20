@@ -7,7 +7,7 @@ app.on('ready', function createWindow() {
     // Create the browser window.
     win = new BrowserWindow({ width: 800, height: 600 })
 
-    // and load the index.html of the app.
+    // Load the index.html of the app.
     win.loadURL(url.format({
         pathname: path.join(__dirname, 'src', 'index.html'),
         protocol: 'file:',
@@ -18,24 +18,32 @@ app.on('ready', function createWindow() {
     const menu = Menu.buildFromTemplate([{
         label: 'File',
         submenu: [{
+            // Open dialog
             label: 'Open',
             click() {
                 dialog.showOpenDialog({
-                        title: "Select Image",
+                        title: "Open",
                     },
                     (file_paths) => {
-                        win.webContents.send("Display_Image", file_paths)
+                        win.webContents.send("Open", file_paths[0])
                     }
                 )
+            }
+        }]
+
+    }, {
+        label: 'Help',
+        // Allow opening browser dev tool
+        submenu: [{
+            label: 'DevTool',
+            click() {
+                win.webContents.openDevTools()
             }
         }]
     }])
 
     // Set menu
     Menu.setApplicationMenu(menu)
-
-    // Open the DevTools.
-    win.webContents.openDevTools()
 })
 
 // Quit when all windows are closed.
