@@ -1,1 +1,16 @@
-﻿
+﻿html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    display: table;
+    margin: 0;
+}
+
+#image_cont {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
