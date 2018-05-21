@@ -38,15 +38,30 @@ function Open_File(file_path) {
 }
 
 // Zoom image
-function Zoom(direction) {
-    Image_Scale += 0.1 * direction
-    if (Image_Scale < 0) {
-        Image_Scale = 0
+function Zoom(direction, scale) {
+    if (scale === undefined) {
+        Image_Scale += 0.1 * direction
+        if (Image_Scale < 0) {
+            Image_Scale = 0
+        }
+    } else {
+        Image_Scale = scale
     }
     Image_Elem.style.transform = 'scale(' + Image_Scale + ')'
 }
 
 // Set callback functions
+
+// Handle drag and drop
+
+document.addEventListener('dragover', (e) => {
+    e.preventDefault();
+})
+document.addEventListener('drop', (e) => {
+    e.preventDefault();
+    file_path = e.dataTransfer.files[0].path
+    Open_File(file_path)
+})
 
 ipcRenderer.on("Open", (event, file_path) => {
     Open_File(file_path)
@@ -69,6 +84,12 @@ ipcRenderer.on("Key_Ctrl_Plus", (event) => {
 ipcRenderer.on("Key_Ctrl_Equals", (event) => {
     if (document.hasFocus()) {
         Zoom(1)
+    }
+})
+ipcRenderer.on("Key_Ctrl_R", (event) => {
+    if (document.hasFocus()) {
+        // Reset zoom
+        Zoom(1, 1)
     }
 })
 ipcRenderer.on("Key_Ctrl_Minus", (event) => {
