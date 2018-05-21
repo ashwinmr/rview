@@ -1,4 +1,4 @@
-const { app, Menu, dialog, BrowserWindow } = require('electron')
+const { app, Menu, dialog, globalShortcut, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -44,6 +44,23 @@ app.on('ready', function createWindow() {
 
     // Set menu
     Menu.setApplicationMenu(menu)
+
+    // Register key callbacks
+    globalShortcut.register('Right', () => {
+        win.webContents.send("Key_Right")
+    })
+    globalShortcut.register('Left', () => {
+        win.webContents.send("Key_Left")
+    })
+    globalShortcut.register('Ctrl+Plus', () => {
+        win.webContents.send("Key_Ctrl_Plus")
+    })
+    globalShortcut.register('Ctrl+=', () => {
+        win.webContents.send("Key_Ctrl_Equals")
+    })
+    globalShortcut.register('Ctrl+-', () => {
+        win.webContents.send("Key_Ctrl_Minus")
+    })
 })
 
 // Quit when all windows are closed.

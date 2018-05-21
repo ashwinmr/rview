@@ -3,7 +3,7 @@ const path = require('path')
 const fs = require('fs')
 
 var Image_Elem = document.getElementById('image')
-var Cur_File_Name
+var Image_Scale = 1
 var Cur_File
 var Cur_Dir
 var Cur_Files
@@ -37,19 +37,43 @@ function Open_File(file_path) {
     Display_Image(file_path)
 }
 
+// Zoom image
+function Zoom(direction) {
+    Image_Scale += 0.1 * direction
+    if (Image_Scale < 0) {
+        Image_Scale = 0
+    }
+    Image_Elem.style.transform = 'scale(' + Image_Scale + ')'
+}
+
 // Set callback functions
+
 ipcRenderer.on("Open", (event, file_path) => {
     Open_File(file_path)
 })
-document.addEventListener('keydown', (e) => {
-    switch (e.key) {
-        case 'ArrowRight':
-            Open_File(Get_File(Cur_File, Cur_Dir, Cur_Files, 1))
-            break
-        case 'ArrowLeft':
-            Open_File(Get_File(Cur_File, Cur_Dir, Cur_Files, -1))
-            break
-        default:
+ipcRenderer.on("Key_Right", (event) => {
+    if (document.hasFocus()) {
+        Open_File(Get_File(Cur_File, Cur_Dir, Cur_Files, 1))
+    }
+})
+ipcRenderer.on("Key_Left", (event) => {
+    if (document.hasFocus()) {
+        Open_File(Get_File(Cur_File, Cur_Dir, Cur_Files, -1))
+    }
+})
+ipcRenderer.on("Key_Ctrl_Plus", (event) => {
+    if (document.hasFocus()) {
+        Zoom(1)
+    }
+})
+ipcRenderer.on("Key_Ctrl_Equals", (event) => {
+    if (document.hasFocus()) {
+        Zoom(1)
+    }
+})
+ipcRenderer.on("Key_Ctrl_Minus", (event) => {
+    if (document.hasFocus()) {
+        Zoom(-1)
     }
 })
 
