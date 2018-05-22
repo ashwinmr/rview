@@ -11,13 +11,12 @@ var Cur_Files
 // Create a class to handle transformation
 class Transformation {
     constructor(image_elem) {
-        this.Scale_X = 1
-        this.Scale_Y = 1
         this.Image_Elem = image_elem
+        this.Reset()
     }
 
     get Result() {
-        return 'scale(' + this.Scale_X + ',' + this.Scale_Y + ')'
+        return 'rotate(' + this.Angle + 'deg) ' + 'scale(' + this.Scale_X + ',' + this.Scale_Y + ')'
     }
 
     Apply() {
@@ -27,20 +26,25 @@ class Transformation {
     Reset() {
         this.Scale_X = 1
         this.Scale_Y = 1
-
+        this.Angle = 0
         this.Apply()
     }
 
     Zoom(direction) {
-        // Zoom, but don't allow sign change
+
         let scale_x = this.Scale_X
-        if (scale_x * (scale_x + 0.1 * direction) > 0) {
-            this.Scale_X += 0.1 * direction
-        }
         let scale_y = this.Scale_Y
-        if (scale_y * (scale_y + 0.1 * direction) > 0) {
-            this.Scale_Y += 0.1 * direction
+
+        scale_x = scale_x + 0.1 * direction * Math.sign(scale_x)
+        if (Math.sign(this.Scale_X) === Math.sign(scale_x)) {
+            this.Scale_X = scale_x
         }
+
+        scale_y = scale_y + 0.1 * direction * Math.sign(scale_y)
+        if (Math.sign(this.Scale_Y) === Math.sign(scale_y)) {
+            this.Scale_Y = scale_y
+        }
+
         this.Apply()
     }
 
@@ -51,6 +55,11 @@ class Transformation {
 
     Flip_V() {
         this.Scale_Y = -this.Scale_Y
+        this.Apply()
+    }
+
+    Rotate(direction) {
+        this.Angle += direction * 90
         this.Apply()
     }
 }
@@ -122,7 +131,7 @@ ipcRenderer.on("Key_Ctrl_Equals", (event) => {
         Transform.Zoom(1)
     }
 })
-ipcRenderer.on("Key_Ctrl_R", (event) => {
+ipcRenderer.on("Key_Esc", (event) => {
     if (document.hasFocus()) {
         Transform.Reset()
     }
@@ -140,6 +149,11 @@ ipcRenderer.on("Key_Ctrl_F", (event) => {
 ipcRenderer.on("Key_Ctrl_V", (event) => {
     if (document.hasFocus()) {
         Transform.Flip_V()
+    }
+})
+ipcRenderer.on("Key_Ctrl_R", (event) => {
+    if (document.hasFocus()) {
+        Transform.Rotate(1)
     }
 })
 

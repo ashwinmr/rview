@@ -61,14 +61,17 @@ app.on('ready', function createWindow() {
     globalShortcut.register('Ctrl+-', () => {
         win.webContents.send("Key_Ctrl_Minus")
     })
-    globalShortcut.register('Ctrl+r', () => {
-        win.webContents.send("Key_Ctrl_R")
+    globalShortcut.register('Esc', () => {
+        win.webContents.send("Key_Esc")
     })
     globalShortcut.register('Ctrl+f', () => {
         win.webContents.send("Key_Ctrl_F")
     })
     globalShortcut.register('Ctrl+v', () => {
         win.webContents.send("Key_Ctrl_V")
+    })
+    globalShortcut.register('Ctrl+r', () => {
+        win.webContents.send("Key_Ctrl_R")
     })
 })
 
