@@ -16,7 +16,10 @@ class Transformation {
     }
 
     get Result() {
-        return 'rotate(' + this.Angle + 'deg) ' + 'scale(' + this.Scale_X + ',' + this.Scale_Y + ')'
+        // Translation is needed to absolute center image
+        return 'translate(-50%,-50%) ' +
+            'rotate(' + this.Angle + 'deg) ' +
+            'scale(' + this.Scale_X + ',' + this.Scale_Y + ')'
     }
 
     Apply() {
