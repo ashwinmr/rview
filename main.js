@@ -64,6 +64,12 @@ app.on('ready', function createWindow() {
     globalShortcut.register('Ctrl+r', () => {
         win.webContents.send("Key_Ctrl_R")
     })
+    globalShortcut.register('Ctrl+f', () => {
+        win.webContents.send("Key_Ctrl_F")
+    })
+    globalShortcut.register('Ctrl+v', () => {
+        win.webContents.send("Key_Ctrl_V")
+    })
 })
 
 // Quit when all windows are closed.

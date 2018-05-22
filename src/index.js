@@ -8,6 +8,55 @@ var Cur_File
 var Cur_Dir
 var Cur_Files
 
+// Create a class to handle transformation
+class Transformation {
+    constructor(image_elem) {
+        this.Scale_X = 1
+        this.Scale_Y = 1
+        this.Image_Elem = image_elem
+    }
+
+    get Result() {
+        return 'scale(' + this.Scale_X + ',' + this.Scale_Y + ')'
+    }
+
+    Apply() {
+        this.Image_Elem.style.transform = this.Result
+    }
+
+    Reset() {
+        this.Scale_X = 1
+        this.Scale_Y = 1
+
+        this.Apply()
+    }
+
+    Zoom(direction) {
+        // Zoom, but don't allow sign change
+        let scale_x = this.Scale_X
+        if (scale_x * (scale_x + 0.1 * direction) > 0) {
+            this.Scale_X += 0.1 * direction
+        }
+        let scale_y = this.Scale_Y
+        if (scale_y * (scale_y + 0.1 * direction) > 0) {
+            this.Scale_Y += 0.1 * direction
+        }
+        this.Apply()
+    }
+
+    Flip_H() {
+        this.Scale_X = -this.Scale_X
+        this.Apply()
+    }
+
+    Flip_V() {
+        this.Scale_Y = -this.Scale_Y
+        this.Apply()
+    }
+}
+
+Transform = new Transformation(Image_Elem)
+
 // Display image from path
 function Display_Image(file_path) {
     Image_Elem.src = file_path
@@ -35,19 +84,6 @@ function Open_File(file_path) {
         Cur_Files = files
     })
     Display_Image(file_path)
-}
-
-// Zoom image
-function Zoom(direction, scale) {
-    if (scale === undefined) {
-        Image_Scale += 0.1 * direction
-        if (Image_Scale < 0) {
-            Image_Scale = 0
-        }
-    } else {
-        Image_Scale = scale
-    }
-    Image_Elem.style.transform = 'scale(' + Image_Scale + ')'
 }
 
 // Set callback functions
@@ -78,23 +114,32 @@ ipcRenderer.on("Key_Left", (event) => {
 })
 ipcRenderer.on("Key_Ctrl_Plus", (event) => {
     if (document.hasFocus()) {
-        Zoom(1)
+        Transform.Zoom(1)
     }
 })
 ipcRenderer.on("Key_Ctrl_Equals", (event) => {
     if (document.hasFocus()) {
-        Zoom(1)
+        Transform.Zoom(1)
     }
 })
 ipcRenderer.on("Key_Ctrl_R", (event) => {
     if (document.hasFocus()) {
-        // Reset zoom
-        Zoom(1, 1)
+        Transform.Reset()
     }
 })
 ipcRenderer.on("Key_Ctrl_Minus", (event) => {
     if (document.hasFocus()) {
-        Zoom(-1)
+        Transform.Zoom(-1)
+    }
+})
+ipcRenderer.on("Key_Ctrl_F", (event) => {
+    if (document.hasFocus()) {
+        Transform.Flip_H()
+    }
+})
+ipcRenderer.on("Key_Ctrl_V", (event) => {
+    if (document.hasFocus()) {
+        Transform.Flip_V()
     }
 })
 
