@@ -83,7 +83,9 @@ function Wrap_Index(ind, length) {
 function Get_File(cur_file, cur_dir, file_list, increment) {
 
     cur_ind = file_list.indexOf(cur_file)
-    ind = Wrap_Index(cur_ind + increment, file_list.length)
+    ind = cur_ind + increment
+        // Limit to file list
+    ind = ind < 0 ? 0 : ind > file_list.length ? file_list.length - 1 : ind
 
     return path.join(cur_dir, file_list[ind])
 }
