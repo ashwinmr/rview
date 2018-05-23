@@ -168,4 +168,4 @@ ipcRenderer.on("Key_Ctrl_R", (event) => {
 })
 
 // Open the starting image
-Open_File(path.join(__dirname, '../test/1.jpg'))
+// Open_File(path.join(__dirname, '../test/1.jpg'))

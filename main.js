@@ -6,7 +6,10 @@ const url = require('url')
 // Start the program when app is ready
 app.on('ready', function createWindow() {
     // Create the browser window.
-    win = new BrowserWindow({ width: 800, height: 600 })
+    win = new BrowserWindow({
+        show: false, // Show and mazimize later
+        icon: path.join(__dirname, 'assets', 'icons', 'main.ico')
+    })
 
     // Load the index.html of the app.
     win.loadURL(url.format({
@@ -19,18 +22,29 @@ app.on('ready', function createWindow() {
     const menu = Menu.buildFromTemplate([{
         label: 'File',
         submenu: [{
-            // Open dialog
-            label: 'Open',
-            click() {
-                dialog.showOpenDialog({
-                        title: "Open",
-                    },
-                    (file_paths) => {
-                        win.webContents.send("Open", file_paths[0])
-                    }
-                )
+                // Open dialog
+                label: 'Open',
+                accelerator: 'Ctrl+o',
+                click() {
+                    dialog.showOpenDialog({
+                            title: "Open",
+                        },
+                        (file_paths) => {
+                            if (file_paths !== undefined) {
+                                win.webContents.send("Open", file_paths[0])
+                            }
+                        }
+                    )
+                }
+            },
+            {
+                // Exit
+                label: 'Exit',
+                click() {
+                    win.close()
+                }
             }
-        }]
+        ]
 
     }, {
         label: 'Help',
@@ -75,12 +89,17 @@ app.on('ready', function createWindow() {
         win.webContents.send("Key_Ctrl_R")
     })
 
-    // Handle loading of file when opened with electron
+    // Perform actions after window is loaded
     win.webContents.on('did-finish-load', () => {
+
+        // Handle loading of file when opened with electron
         let path_arg = process.argv[1]
-        if (fs.statSync(path_arg).isFile()) {
+        if (path_arg !== '.') {
             win.webContents.send("Open", path_arg)
         }
+
+        // Show and maximize
+        win.maximize()
     })
 
 })
