@@ -1,4 +1,5 @@
 const { app, Menu, dialog, globalShortcut, BrowserWindow } = require('electron')
+const fs = require('fs')
 const path = require('path')
 const url = require('url')
 
@@ -76,7 +77,10 @@ app.on('ready', function createWindow() {
 
     // Handle loading of file when opened with electron
     win.webContents.on('did-finish-load', () => {
-        win.webContents.send("Open", process.argv[1])
+        let path_arg = process.argv[1]
+        if (fs.statSync(path_arg).isFile()) {
+            win.webContents.send("Open", path_arg)
+        }
     })
 
 })
