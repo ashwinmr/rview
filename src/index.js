@@ -111,6 +111,11 @@ document.addEventListener('drop', (e) => {
     Open_File(file_path)
 })
 
+// Handle logging main process messages to console
+ipcRenderer.on("Log", (event, message) => {
+    console.log(message)
+})
+
 ipcRenderer.on("Open", (event, file_path) => {
     Open_File(file_path)
 })

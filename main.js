@@ -73,6 +73,12 @@ app.on('ready', function createWindow() {
     globalShortcut.register('Ctrl+r', () => {
         win.webContents.send("Key_Ctrl_R")
     })
+
+    // Handle loading of file when opened with electron
+    win.webContents.on('did-finish-load', () => {
+        win.webContents.send("Open", process.argv[1])
+    })
+
 })
 
 // Quit when all windows are closed.
