@@ -118,53 +118,36 @@ ipcRenderer.on("Log", (event, message) => {
     console.log(message)
 })
 
+// Handle interaction
 ipcRenderer.on("Open", (event, file_path) => {
     Open_File(file_path)
 })
-ipcRenderer.on("Key_Right", (event) => {
-    if (document.hasFocus()) {
-        Open_File(Get_File(Cur_File, Cur_Dir, Cur_Files, 1))
-    }
+ipcRenderer.on("Next", (event) => {
+    Open_File(Get_File(Cur_File, Cur_Dir, Cur_Files, 1))
 })
-ipcRenderer.on("Key_Left", (event) => {
-    if (document.hasFocus()) {
-        Open_File(Get_File(Cur_File, Cur_Dir, Cur_Files, -1))
-    }
+ipcRenderer.on("Previous", (event) => {
+    Open_File(Get_File(Cur_File, Cur_Dir, Cur_Files, -1))
 })
-ipcRenderer.on("Key_Ctrl_Plus", (event) => {
-    if (document.hasFocus()) {
-        Transform.Zoom(1)
-    }
+ipcRenderer.on("Zoom_In", (event) => {
+    Transform.Zoom(1)
 })
-ipcRenderer.on("Key_Ctrl_Equals", (event) => {
-    if (document.hasFocus()) {
-        Transform.Zoom(1)
-    }
+ipcRenderer.on("Zoom_Out", (event) => {
+    Transform.Zoom(-1)
 })
-ipcRenderer.on("Key_Esc", (event) => {
-    if (document.hasFocus()) {
-        Transform.Reset()
-    }
+ipcRenderer.on("Reset", (event) => {
+    Transform.Reset()
 })
-ipcRenderer.on("Key_Ctrl_Minus", (event) => {
-    if (document.hasFocus()) {
-        Transform.Zoom(-1)
-    }
+ipcRenderer.on("Flip_Horizontal", (event) => {
+    Transform.Flip_H()
 })
-ipcRenderer.on("Key_Ctrl_F", (event) => {
-    if (document.hasFocus()) {
-        Transform.Flip_H()
-    }
+ipcRenderer.on("Flip_Vertical", (event) => {
+    Transform.Flip_V()
 })
-ipcRenderer.on("Key_Ctrl_V", (event) => {
-    if (document.hasFocus()) {
-        Transform.Flip_V()
-    }
+ipcRenderer.on("Rotate_CW", (event) => {
+    Transform.Rotate(1)
 })
-ipcRenderer.on("Key_Ctrl_R", (event) => {
-    if (document.hasFocus()) {
-        Transform.Rotate(1)
-    }
+ipcRenderer.on("Rotate_CCW", (event) => {
+    Transform.Rotate(-1)
 })
 
 // Open the starting image

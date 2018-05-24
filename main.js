@@ -20,73 +20,102 @@ app.on('ready', function createWindow() {
 
     // Create the menu
     const menu = Menu.buildFromTemplate([{
-        label: 'File',
-        submenu: [{
-                // Open dialog
-                label: 'Open',
-                accelerator: 'Ctrl+o',
-                click() {
-                    dialog.showOpenDialog({
-                            title: "Open",
-                        },
-                        (file_paths) => {
-                            if (file_paths !== undefined) {
-                                win.webContents.send("Open", file_paths[0])
+            label: 'File',
+            submenu: [{
+                    // Open dialog
+                    label: 'Open',
+                    accelerator: 'Ctrl+o',
+                    click() {
+                        dialog.showOpenDialog({
+                                title: "Open",
+                            },
+                            (file_paths) => {
+                                if (file_paths !== undefined) {
+                                    win.webContents.send("Open", file_paths[0])
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
+                },
+                {
+                    // Exit
+                    label: 'Exit',
+                    click() {
+                        win.close()
+                    }
                 }
-            },
-            {
-                // Exit
-                label: 'Exit',
-                click() {
-                    win.close()
-                }
-            }
-        ]
+            ]
 
-    }, {
-        label: 'Help',
-        // Allow opening browser dev tool
-        submenu: [{
-            label: 'DevTool',
-            click() {
-                win.webContents.openDevTools()
-            }
-        }]
-    }])
+        },
+        {
+            label: 'Edit',
+            // Options to edit the image
+            submenu: [{
+                    label: 'Next',
+                    click() { win.webContents.send('Next') },
+                    accelerator: 'Right'
+                },
+                {
+                    label: 'Previous',
+                    click() { win.webContents.send('Previous') },
+                    accelerator: 'Left'
+                },
+                {
+                    label: 'Zoom In',
+                    click() { win.webContents.send('Zoom_In') },
+                    accelerator: 'Ctrl+Plus'
+                },
+                {
+                    label: 'Zoom Out',
+                    click() { win.webContents.send('Zoom_Out') },
+                    accelerator: 'Ctrl+-'
+                },
+                {
+                    label: 'Reset',
+                    click() { win.webContents.send('Reset') },
+                    accelerator: 'Esc'
+                },
+                {
+                    label: 'Flip Horizontal',
+                    click() { win.webContents.send('Flip_Horizontal') },
+                    accelerator: 'Ctrl+F'
+                },
+                {
+                    label: 'Flip Vertical',
+                    click() { win.webContents.send('Flip_Vertical') },
+                    accelerator: 'Shift+F'
+                },
+                {
+                    label: 'Rotate Clockwise',
+                    click() { win.webContents.send('Rotate_CW') },
+                    accelerator: 'Ctrl+R'
+                },
+                {
+                    label: 'Rotate Counter Clockwise',
+                    click() { win.webContents.send('Rotate_CCW') },
+                    accelerator: 'Shift+R'
+                },
+            ]
+        },
+        {
+            label: 'Help',
+            // Allow opening browser dev tool
+            submenu: [{
+                label: 'DevTool',
+                click() {
+                    win.webContents.openDevTools()
+                }
+            }]
+        }
+    ])
 
     // Set menu
     Menu.setApplicationMenu(menu)
 
-    // Register key callbacks
-    globalShortcut.register('Right', () => {
-        win.webContents.send("Key_Right")
-    })
-    globalShortcut.register('Left', () => {
-        win.webContents.send("Key_Left")
-    })
-    globalShortcut.register('Ctrl+Plus', () => {
-        win.webContents.send("Key_Ctrl_Plus")
-    })
+    // Register other keyboard shortcuts
+
     globalShortcut.register('Ctrl+=', () => {
-        win.webContents.send("Key_Ctrl_Equals")
-    })
-    globalShortcut.register('Ctrl+-', () => {
-        win.webContents.send("Key_Ctrl_Minus")
-    })
-    globalShortcut.register('Esc', () => {
-        win.webContents.send("Key_Esc")
-    })
-    globalShortcut.register('Ctrl+f', () => {
-        win.webContents.send("Key_Ctrl_F")
-    })
-    globalShortcut.register('Ctrl+v', () => {
-        win.webContents.send("Key_Ctrl_V")
-    })
-    globalShortcut.register('Ctrl+r', () => {
-        win.webContents.send("Key_Ctrl_R")
+        win.webContents.send("Zoom_In")
     })
 
     // Perform actions after window is loaded
