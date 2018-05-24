@@ -51,6 +51,12 @@ app.on('ready', function createWindow() {
             label: 'Edit',
             // Options to edit the image
             submenu: [{
+                    label: 'Copy',
+                    click() { win.webContents.send('Copy') },
+                    // Ctrl + C accelerator doesn't work. For show. Implement elsewhere
+                    accelerator: 'Ctrl+C'
+                },
+                {
                     label: 'Next',
                     click() { win.webContents.send('Next') },
                     accelerator: 'Right'
@@ -102,6 +108,7 @@ app.on('ready', function createWindow() {
             // Allow opening browser dev tool
             submenu: [{
                 label: 'DevTool',
+                accelerator: 'Ctrl+D',
                 click() {
                     win.webContents.openDevTools()
                 }

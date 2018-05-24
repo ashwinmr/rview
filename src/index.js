@@ -1,4 +1,4 @@
-﻿const { ipcRenderer } = require('electron')
+﻿const { ipcRenderer, nativeImage, clipboard } = require('electron')
 const path = require('path')
 const fs = require('fs')
 
@@ -149,6 +149,17 @@ ipcRenderer.on("Rotate_CW", (event) => {
 ipcRenderer.on("Rotate_CCW", (event) => {
     Transform.Rotate(-1)
 })
+ipcRenderer.on("Copy", (event) => {
+    let file_path = path.join(Cur_Dir, Cur_File)
+    if (file_path !== undefined) {
+        let image = nativeImage.createFromPath(file_path)
+        clipboard.writeImage(image)
+    }
+})
+
+// Add keyboard shortcuts 
+
+
 
 // Open the starting image
 // Open_File(path.join(__dirname, '../test/1.jpg'))
