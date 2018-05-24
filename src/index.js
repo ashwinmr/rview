@@ -1,6 +1,7 @@
 ﻿const { ipcRenderer, nativeImage, clipboard } = require('electron')
 const path = require('path')
 const fs = require('fs')
+const mousetrap = require('mousetrap') // Can't be used in node. Only in browser
 
 var Image_Elem = document.getElementById('image')
 var Image_Scale = 1
@@ -80,24 +81,51 @@ function Wrap_Index(ind, length) {
 }
 
 // Get file path from a list of files at an increment from the current file path
-function Get_File(cur_file, cur_dir, file_list, increment) {
+function Get_File(increment) {
+    let cur_file = Cur_File
+    let cur_dir = Cur_Dir
+    let file_list = Cur_Files
 
-    cur_ind = file_list.indexOf(cur_file)
-    ind = cur_ind + increment
-        // Limit to file list
-    ind = ind < 0 ? 0 : ind > file_list.length ? file_list.length - 1 : ind
+    if (cur_file !== undefined && cur_dir !== undefined && file_list !== undefined) {
+        cur_ind = file_list.indexOf(cur_file)
+        ind = cur_ind + increment
+            // Limit to file list
+        ind = ind < 0 ? 0 : ind > file_list.length ? file_list.length - 1 : ind
 
-    return path.join(cur_dir, file_list[ind])
+        return path.join(cur_dir, file_list[ind])
+    }
 }
 
 // Open file and store globals
 function Open_File(file_path) {
-    Cur_Dir = path.dirname(file_path)
-    Cur_File = path.basename(file_path)
-    fs.readdir(Cur_Dir, (err, files) => {
-        Cur_Files = files
-    })
-    Display_Image(file_path)
+    if (file_path !== undefined) {
+        Cur_Dir = path.dirname(file_path)
+        Cur_File = path.basename(file_path)
+        fs.readdir(Cur_Dir, (err, files) => {
+            Cur_Files = files
+        })
+        Display_Image(file_path)
+    }
+}
+
+// Open image from data url
+function Open_Image(data_url) {
+    Display_Image(data_url)
+}
+
+// Copy image to clipboard
+function Copy() {
+    if (Cur_Dir !== undefined && Cur_File !== undefined) {
+        let file_path = path.join(Cur_Dir, Cur_File)
+        let image = nativeImage.createFromPath(file_path)
+        clipboard.writeImage(image)
+    }
+}
+
+// Paste image from clipboard
+function Paste() {
+    let image = clipboard.readImage()
+    Open_Image(image.toDataURL())
 }
 
 // Set callback functions
@@ -123,10 +151,10 @@ ipcRenderer.on("Open", (event, file_path) => {
     Open_File(file_path)
 })
 ipcRenderer.on("Next", (event) => {
-    Open_File(Get_File(Cur_File, Cur_Dir, Cur_Files, 1))
+    Open_File(Get_File(1))
 })
 ipcRenderer.on("Previous", (event) => {
-    Open_File(Get_File(Cur_File, Cur_Dir, Cur_Files, -1))
+    Open_File(Get_File(-1))
 })
 ipcRenderer.on("Zoom_In", (event) => {
     Transform.Zoom(1)
@@ -150,14 +178,22 @@ ipcRenderer.on("Rotate_CCW", (event) => {
     Transform.Rotate(-1)
 })
 ipcRenderer.on("Copy", (event) => {
-    let file_path = path.join(Cur_Dir, Cur_File)
-    if (file_path !== undefined) {
-        let image = nativeImage.createFromPath(file_path)
-        clipboard.writeImage(image)
-    }
+    Copy()
+})
+ipcRenderer.on("Paste", (event) => {
+    Paste()
 })
 
 // Add keyboard shortcuts 
+mousetrap.bind('ctrl+c', () => {
+    Copy()
+})
+mousetrap.bind('ctrl+v', () => {
+    Paste()
+})
+mousetrap.bind('ctrl+=', () => {
+    Transform.Zoom(1)
+})
 
 
 

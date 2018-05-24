@@ -39,7 +39,8 @@ app.on('ready', function createWindow() {
                 },
                 {
                     // Exit
-                    label: 'Exit',
+                    label: 'Quit',
+                    accelerator: 'ctrl+q',
                     click() {
                         win.close()
                     }
@@ -55,6 +56,12 @@ app.on('ready', function createWindow() {
                     click() { win.webContents.send('Copy') },
                     // Ctrl + C accelerator doesn't work. For show. Implement elsewhere
                     accelerator: 'Ctrl+C'
+                },
+                {
+                    label: 'Paste',
+                    click() { win.webContents.send('Paste') },
+                    // Ctrl + C accelerator doesn't work. For show. Implement elsewhere
+                    accelerator: 'Ctrl+V'
                 },
                 {
                     label: 'Next',
@@ -118,12 +125,6 @@ app.on('ready', function createWindow() {
 
     // Set menu
     Menu.setApplicationMenu(menu)
-
-    // Register other keyboard shortcuts
-
-    globalShortcut.register('Ctrl+=', () => {
-        win.webContents.send("Zoom_In")
-    })
 
     // Perform actions after window is loaded
     win.webContents.on('did-finish-load', () => {
