@@ -113,6 +113,15 @@ function Open_Image(data_url) {
     Display_Image(data_url)
 }
 
+// Save file
+function Save_File(save_path) {
+    if (Cur_Dir !== undefined && Cur_File !== undefined) {
+        let file_path = path.join(Cur_Dir, Cur_File)
+        let image = nativeImage.createFromPath(file_path).toPNG()
+        fs.writeFile(save_path, image, () => {});
+    }
+}
+
 // Copy image to clipboard
 function Copy() {
     if (Cur_Dir !== undefined && Cur_File !== undefined) {
@@ -149,6 +158,9 @@ ipcRenderer.on("Log", (event, message) => {
 // Handle interaction
 ipcRenderer.on("Open", (event, file_path) => {
     Open_File(file_path)
+})
+ipcRenderer.on("Save", (event, file_path) => {
+    Save_File(file_path)
 })
 ipcRenderer.on("Next", (event) => {
     Open_File(Get_File(1))

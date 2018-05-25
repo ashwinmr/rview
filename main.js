@@ -38,6 +38,23 @@ app.on('ready', function createWindow() {
                     }
                 },
                 {
+                    // Save dialog
+                    label: 'Save',
+                    accelerator: 'Ctrl+s',
+                    click() {
+                        dialog.showSaveDialog({
+                                title: "Save",
+                            },
+                            (save_path) => {
+                                if (save_path != undefined) {
+                                    console.log(save_path)
+                                    win.webContents.send("Save", save_path)
+                                }
+                            }
+                        )
+                    }
+                },
+                {
                     // Exit
                     label: 'Quit',
                     accelerator: 'ctrl+q',
