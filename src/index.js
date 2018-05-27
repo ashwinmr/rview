@@ -133,7 +133,9 @@ function Copy() {
 // Paste image from clipboard
 function Paste() {
     let image = clipboard.readImage()
-    Open_Image(image.toDataURL())
+    if (!image.isEmpty()) {
+        Open_Image(image.toDataURL())
+    }
 }
 
 // Set callback functions
