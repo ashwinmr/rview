@@ -90,8 +90,7 @@ function Get_File(increment) {
         cur_ind = file_list.indexOf(cur_file)
         ind = cur_ind + increment
             // Limit to file list
-        ind = ind < 0 ? 0 : ind > file_list.length ? file_list.length - 1 : ind
-
+        ind = ind < 0 ? 0 : ind >= file_list.length ? file_list.length - 1 : ind
         return path.join(cur_dir, file_list[ind])
     }
 }
@@ -206,8 +205,3 @@ mousetrap.bind('ctrl+v', () => {
 mousetrap.bind('ctrl+=', () => {
     Transform.Zoom(1)
 })
-
-
-
-// Open the starting image
-// Open_File(path.join(__dirname, '../test/1.jpg'))

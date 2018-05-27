@@ -12,8 +12,9 @@
     "license": "ISC",
     "devDependencies": {
         "electron": "^2.0.1",
-        "electron-packager": "^12.0.2",
-        "mousetrap": "^1.6.1"
+        "electron-packager": "^12.0.2"
     },
-    "dependencies": {}
+    "dependencies": {
+        "mousetrap": "^1.6.1"
+    }
 }
