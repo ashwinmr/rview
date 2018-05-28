@@ -8,7 +8,7 @@
         "package": "electron-packager . --asar --overwrite=true --icon=assets/icons/main.ico"
     },
     "keywords": [],
-    "author": "",
+    "author": "ashwin",
     "license": "ISC",
     "devDependencies": {
         "electron": "^2.0.1",
