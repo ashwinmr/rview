@@ -5,36 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug Main Process",
             "type": "node",
             "request": "launch",
-            "name": "Launch",
-            "program": "${workspaceFolder}/main.js",
-            "runtimeExecutable":"${workspaceFolder}\\node_modules\\.bin\\electron",
-            "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}",
-            "runtimeArgs":[
-                "--enable-logging",
-            ]
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
+            "windows": {
+              "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+            },
+            "args" : ["."]
         },
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "Debug",
-            "program": "${workspaceFolder}/main.js",
-            "runtimeExecutable":"${workspaceFolder}\\node_modules\\.bin\\electron",
-            "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}",
-            "runtimeArgs":[
-                "${workspaceFolder}",
-                "--enable-logging",
-                "--remote-debugging-port=9222"
-            ]
-        },
-        {
-            "type": "chrome",
-            "request": "attach",
-            "name": "Attach to Process",
-            "port": 9222
-        }
     ]
 }
