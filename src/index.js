@@ -34,18 +34,27 @@ class Transformation {
         this.Apply()
     }
 
-    Zoom(direction) {
+    Zoom(direction, increment) {
+
+        if (increment === undefined) {
+            increment = 0.1
+        } else {
+            increment = Math.abs(increment)
+        }
 
         let scale_x = this.Scale_X
         let scale_y = this.Scale_Y
+        let min_zoom = 0.1
 
-        scale_x = scale_x + 0.1 * direction * Math.sign(scale_x)
-        if (Math.sign(this.Scale_X) === Math.sign(scale_x)) {
+        scale_x = scale_x + increment * direction * Math.sign(scale_x)
+        if ((Math.abs(scale_x) >= min_zoom) &&
+            (Math.sign(this.Scale_X) === Math.sign(scale_x))) {
             this.Scale_X = scale_x
         }
 
-        scale_y = scale_y + 0.1 * direction * Math.sign(scale_y)
-        if (Math.sign(this.Scale_Y) === Math.sign(scale_y)) {
+        scale_y = scale_y + increment * direction * Math.sign(scale_y)
+        if ((Math.abs(scale_y) >= min_zoom) &&
+            (Math.sign(this.Scale_Y) === Math.sign(scale_y))) {
             this.Scale_Y = scale_y
         }
 
@@ -151,12 +160,24 @@ document.addEventListener('drop', (e) => {
     Open_File(file_path)
 })
 
+// Handle scroll zoom
+document.addEventListener('mousewheel', (e) => {
+    let rate = e.deltaY
+    let multiplier = 0.001
+    if (rate > 0) {
+        Transform.Zoom(-1, rate * multiplier)
+    } else {
+        Transform.Zoom(1, rate * multiplier)
+    }
+})
+
+
 // Handle logging main process messages to console
 ipcRenderer.on("Log", (event, message) => {
     console.log(message)
 })
 
-// Handle interaction
+// Handle main process events
 ipcRenderer.on("Open", (event, file_path) => {
     Open_File(file_path)
 })
