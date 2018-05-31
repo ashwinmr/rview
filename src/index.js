@@ -8,6 +8,7 @@ var Image_Scale = 1
 var Cur_File
 var Cur_Dir
 var Cur_Files
+var Time = new Date()
 
 // Create a class to handle transformation
 class Transformation {
@@ -36,6 +37,10 @@ class Transformation {
 
     Zoom(direction, increment) {
 
+        // Get the direction as + or - 1
+        direction = Math.sign(direction)
+
+        // Get increment as an absolute value
         if (increment === undefined) {
             increment = 0.1
         } else {
@@ -46,19 +51,23 @@ class Transformation {
         let scale_y = this.Scale_Y
         let min_zoom = 0.1
 
-        scale_x = scale_x + increment * direction * Math.sign(scale_x)
-        if ((Math.abs(scale_x) >= min_zoom) &&
-            (Math.sign(this.Scale_X) === Math.sign(scale_x))) {
+        // Scale taking care of image flip
+        scale_x = scale_x + increment * direction * Math.sign(this.Scale_X)
+        if (Math.abs(scale_x) > min_zoom && Math.sign(this.Scale_X) === Math.sign(scale_x)) {
             this.Scale_X = scale_x
+        } else {
+            this.Scale_X = min_zoom * Math.sign(this.Scale_X)
         }
 
-        scale_y = scale_y + increment * direction * Math.sign(scale_y)
-        if ((Math.abs(scale_y) >= min_zoom) &&
-            (Math.sign(this.Scale_Y) === Math.sign(scale_y))) {
+        scale_y = scale_y + increment * direction * Math.sign(this.Scale_Y)
+        if (Math.abs(scale_y) >= min_zoom && Math.sign(this.Scale_Y) === Math.sign(scale_y)) {
             this.Scale_Y = scale_y
+        } else {
+            this.Scale_Y = min_zoom * Math.sign(this.Scale_Y)
         }
 
         this.Apply()
+
     }
 
     Flip_H() {
@@ -164,6 +173,7 @@ document.addEventListener('drop', (e) => {
 document.addEventListener('mousewheel', (e) => {
     let rate = e.deltaY
     let multiplier = 0.001
+
     if (rate > 0) {
         Transform.Zoom(-1, rate * multiplier)
     } else {
