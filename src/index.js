@@ -165,8 +165,10 @@ document.addEventListener('dragover', (e) => {
 })
 document.addEventListener('drop', (e) => {
     e.preventDefault();
-    file_path = e.dataTransfer.files[0].path
-    Open_File(file_path)
+    let file = e.dataTransfer.files[0]
+    if (file !== undefined) {
+        Open_File(file.path)
+    }
 })
 
 // Handle scroll zoom
@@ -180,7 +182,6 @@ document.addEventListener('mousewheel', (e) => {
         Transform.Zoom(1, rate * multiplier)
     }
 })
-
 
 // Handle logging main process messages to console
 ipcRenderer.on("Log", (event, message) => {
