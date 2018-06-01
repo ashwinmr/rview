@@ -8,18 +8,21 @@ var Image_Scale = 1
 var Cur_File
 var Cur_Dir
 var Cur_Files
+var Drag_Start = { x: undefined, y: undefined }
+var Click_Flag = false
 var Time = new Date()
 
 // Create a class to handle transformation
 class Transformation {
     constructor(image_elem) {
         this.Image_Elem = image_elem
+        this.Offset = { X: 0, Y: 0 }
         this.Reset()
     }
 
     get Result() {
         // Translation is needed to absolute center image
-        return 'translate(-50%,-50%) ' +
+        return 'translate(' + (this.Offset.X + this.Translate.X) + 'px ,' + (this.Offset.Y + this.Translate.Y) + 'px ) ' +
             'rotate(' + this.Angle + 'deg) ' +
             'scale(' + this.Scale_X + ',' + this.Scale_Y + ')'
     }
@@ -32,6 +35,27 @@ class Transformation {
         this.Scale_X = 1
         this.Scale_Y = 1
         this.Angle = 0
+        this.Translate = { X: 0, Y: 0 }
+        this.Update()
+    }
+
+    Update() {
+        this.Width = this.Image_Elem.clientWidth
+        this.Height = this.Image_Elem.clientHeight
+        this.Offset.X = -this.Width / 2
+        this.Offset.Y = -this.Height / 2
+        this.Apply()
+    }
+
+    Move(x, y) {
+        this.Translate.X = x
+        this.Translate.Y = y
+        this.Apply()
+    }
+
+    Place(x, y) {
+        this.Offset.X += x
+        this.Offset.Y += y
         this.Apply()
     }
 
@@ -168,6 +192,30 @@ document.addEventListener('drop', (e) => {
     let file = e.dataTransfer.files[0]
     if (file !== undefined) {
         Open_File(file.path)
+    }
+})
+
+// Handle update image properties after load
+Image_Elem.addEventListener('load', (e) => {
+    Transform.Update()
+})
+
+// Handle drag move
+Image_Elem.addEventListener('mousedown', (e) => {
+    Drag_Start.x = e.x
+    Drag_Start.y = e.y
+    Click_Flag = true
+})
+document.addEventListener('mousemove', (e) => {
+    if (Click_Flag) {
+        Transform.Move(e.x - Drag_Start.x, e.y - Drag_Start.y)
+    }
+})
+document.addEventListener('mouseup', (e) => {
+    if (Click_Flag) {
+        Click_Flag = false
+        Transform.Move(0, 0)
+        Transform.Place(e.x - Drag_Start.x, e.y - Drag_Start.y)
     }
 })
 
