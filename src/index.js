@@ -13,12 +13,21 @@ var Click_Flag = false
 var Time = new Date()
 
 // Create object to handle file
-var File = new function() {
+class File_C {
 
-    this.Opened = false
+    constructor() {
+        this.Opened = false
+    }
+
+    // Get the file path
+    get Path() {
+        if (this.Opened) {
+            return path.join(this.Dir, this.Name)
+        }
+    }
 
     // Open file and store data
-    this.Open = function(file_path) {
+    Open(file_path) {
         if (file_path === undefined) {
             return
         }
@@ -37,7 +46,7 @@ var File = new function() {
     }
 
     // Get file path from a list of files at an increment from the current file path
-    this.Get_File = function(increment) {
+    Get(increment) {
         let name = this.Name
         let dir = this.Dir
         let list = this.List
@@ -47,8 +56,8 @@ var File = new function() {
         if (name === undefined || dir === undefined || list === undefined) {
             return
         }
-        cur_ind = list.indexOf(name)
-        ind = cur_ind + increment
+        let cur_ind = list.indexOf(name)
+        let ind = cur_ind + increment
 
         if (wrap) {
             // Wrap index for array
@@ -60,15 +69,8 @@ var File = new function() {
         return path.join(dir, list[ind])
     }
 
-    // Get the file path
-    this.Get_Path = function() {
-        if (this.Opened) {
-            return path.join(this.Dir, this.Name)
-        }
-    }
-
     // Save file
-    this.Save = function(save_path) {
+    Save(save_path) {
         if (!this.Opened) {
             return
         }
@@ -76,17 +78,21 @@ var File = new function() {
         let image = nativeImage.createFromPath(file_path).toPNG()
         fs.writeFile(save_path, image, () => {});
     }
-
 }
+var File = new File_C
 
 // Create object to handle image
-var Image = new function() {
-    this.Elem = document.getElementById('image')
+class Image_C {
 
-    this.Display = function(file_path) {
+    constructor() {
+        this.Elem = document.getElementById('image')
+    }
+
+    Display(file_path) {
         this.Elem.src = file_path
     }
 }
+var Image = new Image_C
 
 // Paste image from clipboard
 function Paste() {
@@ -209,8 +215,12 @@ Transform = new Transformation(Image_Elem)
 
 // Set callback functions
 
-// Handle drag and drop
+// Handle update image properties after load
+Image_Elem.addEventListener('load', (e) => {
+    Transform.Update()
+})
 
+// Handle drag and drop
 document.addEventListener('dragover', (e) => {
     e.preventDefault();
 })
@@ -220,11 +230,6 @@ document.addEventListener('drop', (e) => {
     if (file !== undefined) {
         File.Open(file.path)
     }
-})
-
-// Handle update image properties after load
-Image_Elem.addEventListener('load', (e) => {
-    Transform.Update()
 })
 
 // Handle drag move
@@ -271,10 +276,10 @@ ipcRenderer.on("Save", (event, file_path) => {
     File.Save(file_path)
 })
 ipcRenderer.on("Next", (event) => {
-    File.Open(File.Get_File(1))
+    File.Open(File.Get(1))
 })
 ipcRenderer.on("Previous", (event) => {
-    File.Open(File.Get_File(-1))
+    File.Open(File.Get(-1))
 })
 ipcRenderer.on("Zoom_In", (event) => {
     Transform.Zoom(1)
