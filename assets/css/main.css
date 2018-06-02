@@ -10,4 +10,5 @@
     max-height: 99vh;
     cursor: pointer;
     -webkit-user-drag: none;
+    user-select: none;
 }
