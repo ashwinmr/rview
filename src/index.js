@@ -12,6 +12,63 @@ var Drag_Start = { x: undefined, y: undefined }
 var Click_Flag = false
 var Time = new Date()
 
+// Create object to handle file
+var File = new function() {
+
+    // Open file and store data
+    this.Open = function(file_path) {
+        if (file_path === undefined) {
+            return
+        }
+        let dir = path.dirname(file_path)
+
+        this.Dir = dir
+        this.Name = path.basename(file_path)
+
+        fs.readdir(dir, (err, files) => {
+            this.List = files
+        })
+
+        // Display the image
+        Image.Display(file_path)
+    }
+
+    // Get file path from a list of files at an increment from the current file path
+    this.Get_File = function(increment) {
+        let name = this.Name
+        let dir = this.Dir
+        let list = this.List
+        let wrap = false // Allow wrapping of index
+
+        // Return if a file has not been opened
+        if (name === undefined || dir === undefined || list === undefined) {
+            return
+        }
+        cur_ind = list.indexOf(name)
+        ind = cur_ind + increment
+
+        if (wrap) {
+            // Wrap index for array
+            ind = ((ind % list.length) + list.length) % list.length;
+        } else {
+            // Limit to file list
+            ind = ind < 0 ? 0 : ind >= list.length ? list.length - 1 : ind
+        }
+        return path.join(dir, list[ind])
+    }
+
+}
+
+// Create object to handle image
+var Image = new function() {
+    this.Elem = document.getElementById('image')
+
+    this.Display = function(file_path) {
+        this.Elem.src = file_path
+    }
+}
+
+
 // Create a class to handle transformation
 class Transformation {
     constructor(image_elem) {
@@ -112,46 +169,13 @@ class Transformation {
 
 Transform = new Transformation(Image_Elem)
 
-// Display image from path
-function Display_Image(file_path) {
-    Image_Elem.src = file_path
-}
 
-// Wrap index for array
-function Wrap_Index(ind, length) {
-    return ((ind % length) + length) % length;
-}
 
-// Get file path from a list of files at an increment from the current file path
-function Get_File(increment) {
-    let cur_file = Cur_File
-    let cur_dir = Cur_Dir
-    let file_list = Cur_Files
 
-    if (cur_file !== undefined && cur_dir !== undefined && file_list !== undefined) {
-        cur_ind = file_list.indexOf(cur_file)
-        ind = cur_ind + increment
-            // Limit to file list
-        ind = ind < 0 ? 0 : ind >= file_list.length ? file_list.length - 1 : ind
-        return path.join(cur_dir, file_list[ind])
-    }
-}
-
-// Open file and store globals
-function Open_File(file_path) {
-    if (file_path !== undefined) {
-        Cur_Dir = path.dirname(file_path)
-        Cur_File = path.basename(file_path)
-        fs.readdir(Cur_Dir, (err, files) => {
-            Cur_Files = files
-        })
-        Display_Image(file_path)
-    }
-}
 
 // Open image from data url
 function Open_Image(data_url) {
-    Display_Image(data_url)
+    Image.Display(data_url)
 }
 
 // Save file
@@ -191,7 +215,7 @@ document.addEventListener('drop', (e) => {
     e.preventDefault();
     let file = e.dataTransfer.files[0]
     if (file !== undefined) {
-        Open_File(file.path)
+        File.Open(file.path)
     }
 })
 
@@ -238,16 +262,16 @@ ipcRenderer.on("Log", (event, message) => {
 
 // Handle main process events
 ipcRenderer.on("Open", (event, file_path) => {
-    Open_File(file_path)
+    File.Open(file_path)
 })
 ipcRenderer.on("Save", (event, file_path) => {
     Save_File(file_path)
 })
 ipcRenderer.on("Next", (event) => {
-    Open_File(Get_File(1))
+    File.Open(File.Get_File(1))
 })
 ipcRenderer.on("Previous", (event) => {
-    Open_File(Get_File(-1))
+    File.Open(File.Get_File(-1))
 })
 ipcRenderer.on("Zoom_In", (event) => {
     Transform.Zoom(1)
