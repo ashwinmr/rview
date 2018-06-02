@@ -3,15 +3,6 @@ const path = require('path')
 const fs = require('fs')
 const mousetrap = require('mousetrap') // Can't be used in node. Only in browser
 
-var Image_Elem = document.getElementById('image')
-var Image_Scale = 1
-var Cur_File
-var Cur_Dir
-var Cur_Files
-var Drag_Start = { x: undefined, y: undefined }
-var Click_Flag = false
-var Time = new Date()
-
 // Create object to handle file
 class File_C {
 
@@ -256,7 +247,7 @@ document.addEventListener('drop', (e) => {
 })
 
 // Handle drag move
-Image_Elem.addEventListener('mousedown', (e) => {
+Image.Elem.addEventListener('mousedown', (e) => {
     Image.Drag_Start.X = e.x
     Image.Drag_Start.Y = e.y
     Image.Clicked = true
@@ -286,6 +277,7 @@ document.addEventListener('mousewheel', (e) => {
     }
 })
 
+// Show cursor coordiantes
 document.addEventListener('mousemove', (e) => {
     var x = e.pageX;
     var y = e.pageY;
