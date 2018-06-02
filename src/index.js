@@ -128,6 +128,8 @@ class Image_C {
         this.Angle = 0
         this.Translate.X = 0
         this.Translate.Y = 0
+        this.Offset.X = -this.Width / 2
+        this.Offset.Y = -this.Height / 2
         this.Transform()
     }
 
