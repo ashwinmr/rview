@@ -3,7 +3,7 @@ const path = require('path')
 const fs = require('fs')
 const mousetrap = require('mousetrap') // Can't be used in node. Only in browser
 
-var Debug = true
+const Debug = true
 
 // Create object to handle file
 class File_C {
@@ -80,7 +80,6 @@ class Image_C {
     constructor() {
         this.Elem = document.getElementById('image')
         this.Offset = { X: 0, Y: 0 }
-        this.Translate = { X: 0, Y: 0 }
         this.Scale = { X: 1, Y: 1 }
         this.Width_Cont = 0 // Width as seen by document flow
         this.Height_Cont = 0 // Width as seen by document flow
@@ -118,7 +117,7 @@ class Image_C {
 
     Transform() {
         let transform =
-            'translate(' + (this.Offset.X + this.Translate.X) + 'px ,' + (this.Offset.Y + this.Translate.Y) + 'px ) ' +
+            'translate(' + this.Offset.X + 'px ,' + this.Offset.Y + 'px ) ' +
             'rotate(' + this.Angle + 'deg) ' +
             'scale(' + this.Scale.X + ',' + this.Scale.Y + ')'
 
@@ -129,20 +128,12 @@ class Image_C {
         this.Scale.X = 1
         this.Scale.Y = 1
         this.Angle = 0
-        this.Translate.X = 0
-        this.Translate.Y = 0
         this.Offset.X = -this.Width_Cont / 2
         this.Offset.Y = -this.Height_Cont / 2
         this.Transform()
     }
 
     Move(x, y) {
-        this.Translate.X = x
-        this.Translate.Y = y
-        this.Transform()
-    }
-
-    Place(x, y) {
         this.Offset.X += x
         this.Offset.Y += y
         this.Transform()
@@ -192,9 +183,9 @@ class Image_C {
             scale.y = min_zoom * dir.y
         }
 
-        // Translate the image to keep same mouse position
+        // Move the image to keep same mouse position
 
-        // Get distance to translate
+        // Get distance to move
         let dist = { x: 0, y: 0 }
         if (pos !== undefined) {
             dist.x = -(pos.x - this.Origin.X) * (scale.x / this.Scale.X - 1)
@@ -205,8 +196,8 @@ class Image_C {
         this.Scale.X = scale.x
         this.Scale.Y = scale.y
 
-        // Place the image at the distance, and automatically transform
-        this.Place(dist.x, dist.y)
+        // Move the image by the distance and automatically transform
+        this.Move(dist.x, dist.y)
     }
 }
 var Image = new Image_C
@@ -257,14 +248,12 @@ Image.Elem.addEventListener('mousedown', (e) => {
 document.addEventListener('mousemove', (e) => {
     if (Image.Clicked) {
         Image.Move(e.x - Image.Drag_Start.X, e.y - Image.Drag_Start.Y)
+        Image.Drag_Start.X = e.x
+        Image.Drag_Start.Y = e.y
     }
 })
 document.addEventListener('mouseup', (e) => {
-    if (Image.Clicked) {
-        Image.Clicked = false
-        Image.Move(0, 0)
-        Image.Place(e.x - Image.Drag_Start.X, e.y - Image.Drag_Start.Y)
-    }
+    Image.Clicked = false
 })
 
 // Handle scroll zoom
