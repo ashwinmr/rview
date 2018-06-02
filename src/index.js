@@ -105,7 +105,7 @@ class Image_C {
     }
 
     Load() {
-        // Remove old offset
+        // Remove offset due to old width
         this.Offset.X -= -this.Width_Old / 2
         this.Offset.Y -= -this.Height_Old / 2
 
