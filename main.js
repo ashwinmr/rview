@@ -135,7 +135,7 @@ app.on('ready', function createWindow() {
                 label: 'DevTool',
                 accelerator: 'Ctrl+D',
                 click() {
-                    win.webContents.openDevTools()
+                    win.webContents.toggleDevTools()
                 }
             }]
         }
