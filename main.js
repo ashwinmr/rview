@@ -44,6 +44,7 @@ app.on('ready', function createWindow() {
                     click() {
                         dialog.showSaveDialog({
                                 title: "Save",
+                                filters: [{ name: 'Image', extensions: ['png'] }]
                             },
                             (save_path) => {
                                 if (save_path != undefined) {

@@ -74,7 +74,7 @@ class File_C {
         if (!this.Opened) {
             return
         }
-        let file_path = this.Get_Path()
+        let file_path = this.Path
         let image = nativeImage.createFromPath(file_path).toPNG()
         fs.writeFile(save_path, image, () => {});
     }
@@ -107,7 +107,7 @@ function Copy() {
     if (!File.Opened) {
         return
     }
-    let file_path = File.Get_Path()
+    let file_path = File.Path
     let image = nativeImage.createFromPath(file_path)
     clipboard.writeImage(image)
 }
