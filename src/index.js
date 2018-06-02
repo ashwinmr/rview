@@ -15,11 +15,14 @@ var Time = new Date()
 // Create object to handle file
 var File = new function() {
 
+    this.Opened = false
+
     // Open file and store data
     this.Open = function(file_path) {
         if (file_path === undefined) {
             return
         }
+        this.Opened = true
         let dir = path.dirname(file_path)
 
         this.Dir = dir
@@ -57,6 +60,13 @@ var File = new function() {
         return path.join(dir, list[ind])
     }
 
+    // Get the file path
+    this.Get_Path = function() {
+        if (this.Opened) {
+            return path.join(this.Dir, this.Name)
+        }
+    }
+
 }
 
 // Create object to handle image
@@ -66,6 +76,24 @@ var Image = new function() {
     this.Display = function(file_path) {
         this.Elem.src = file_path
     }
+}
+
+// Paste image from clipboard
+function Paste() {
+    let image = clipboard.readImage()
+    if (!image.isEmpty()) {
+        Image.Display(image.toDataURL())
+    }
+}
+
+// Copy image to clipboard
+function Copy() {
+    if (!File.Opened) {
+        return
+    }
+    let file_path = File.Get_Path()
+    let image = nativeImage.createFromPath(file_path)
+    clipboard.writeImage(image)
 }
 
 
@@ -184,23 +212,6 @@ function Save_File(save_path) {
         let file_path = path.join(Cur_Dir, Cur_File)
         let image = nativeImage.createFromPath(file_path).toPNG()
         fs.writeFile(save_path, image, () => {});
-    }
-}
-
-// Copy image to clipboard
-function Copy() {
-    if (Cur_Dir !== undefined && Cur_File !== undefined) {
-        let file_path = path.join(Cur_Dir, Cur_File)
-        let image = nativeImage.createFromPath(file_path)
-        clipboard.writeImage(image)
-    }
-}
-
-// Paste image from clipboard
-function Paste() {
-    let image = clipboard.readImage()
-    if (!image.isEmpty()) {
-        Open_Image(image.toDataURL())
     }
 }
 
