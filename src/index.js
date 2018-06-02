@@ -3,6 +3,8 @@ const path = require('path')
 const fs = require('fs')
 const mousetrap = require('mousetrap') // Can't be used in node. Only in browser
 
+var Debug = true
+
 // Create object to handle file
 class File_C {
 
@@ -277,12 +279,14 @@ document.addEventListener('mousewheel', (e) => {
     }
 })
 
-// Show cursor coordiantes
-document.addEventListener('mousemove', (e) => {
-    var x = e.pageX;
-    var y = e.pageY;
-    e.target.title = "X is " + x + " and Y is " + y;
-})
+// Show cursor coordiantes when debug is enabled
+if (Debug) {
+    document.addEventListener('mousemove', (e) => {
+        var x = e.pageX;
+        var y = e.pageY;
+        e.target.title = "X is " + x + " and Y is " + y;
+    })
+}
 
 // Handle resizing the window
 window.addEventListener('resize', (e) => {
