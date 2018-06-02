@@ -89,21 +89,29 @@ class Image_C {
         this.Offset = { X: 0, Y: 0 }
         this.Translate = { X: 0, Y: 0 }
         this.Scale = { X: 1, Y: 1 }
-        this.Width = 0
-        this.Height = 0
+        this.Width_Old = 0
+        this.Height_Old = 0
         this.Clicked = false
         this.Drag_Start = { X: 0, Y: 0 }
         this.Angle = 0
     }
 
+    get Width() {
+        return this.Elem.clientWidth
+    }
+
+    get Height() {
+        return this.Elem.clientHeight
+    }
+
     Load() {
         // Remove old offset
-        this.Offset.X -= -this.Width / 2
-        this.Offset.Y -= -this.Height / 2
+        this.Offset.X -= -this.Width_Old / 2
+        this.Offset.Y -= -this.Height_Old / 2
 
         // Store new width and offsets
-        this.Width = this.Elem.clientWidth
-        this.Height = this.Elem.clientHeight
+        this.Width_Old = this.Width
+        this.Height_Old = this.Height
         this.Offset.X += -this.Width / 2
         this.Offset.Y += -this.Height / 2
         this.Transform()
@@ -124,7 +132,7 @@ class Image_C {
 
     Reset() {
         this.Scale.X = 1
-        this.Scale_Y = 1
+        this.Scale.Y = 1
         this.Angle = 0
         this.Translate.X = 0
         this.Translate.Y = 0
@@ -265,6 +273,11 @@ document.addEventListener('mousewheel', (e) => {
     } else {
         Image.Zoom(1, rate * multiplier)
     }
+})
+
+// Handle resizing the window
+window.addEventListener('resize', (e) => {
+    Image.Load()
 })
 
 // Handle logging main process messages to console
