@@ -104,7 +104,7 @@ class Image_C {
         return this.Elem.clientHeight
     }
 
-    Load() {
+    Update() {
         // Remove offset due to old width
         this.Offset.X -= -this.Width_Old / 2
         this.Offset.Y -= -this.Height_Old / 2
@@ -229,7 +229,7 @@ function Copy() {
 
 // Handle update image properties after load
 Image.Elem.addEventListener('load', (e) => {
-    Image.Load()
+    Image.Update()
 })
 
 // Handle drag and drop
@@ -277,7 +277,7 @@ document.addEventListener('mousewheel', (e) => {
 
 // Handle resizing the window
 window.addEventListener('resize', (e) => {
-    Image.Load()
+    Image.Update()
 })
 
 // Handle logging main process messages to console
