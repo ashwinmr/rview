@@ -86,10 +86,113 @@ class Image_C {
 
     constructor() {
         this.Elem = document.getElementById('image')
+        this.Offset = { X: 0, Y: 0 }
+        this.Translate = { X: 0, Y: 0 }
+        this.Scale = { X: 1, Y: 1 }
+        this.Width = 0
+        this.Height = 0
+        this.Clicked = false
+        this.Drag_Start = { X: 0, Y: 0 }
+        this.Angle = 0
+    }
+
+    Load() {
+        // Remove old offset
+        this.Offset.X -= -this.Width / 2
+        this.Offset.Y -= -this.Height / 2
+
+        // Store new width and offsets
+        this.Width = this.Elem.clientWidth
+        this.Height = this.Elem.clientHeight
+        this.Offset.X += -this.Width / 2
+        this.Offset.Y += -this.Height / 2
+        this.Transform()
     }
 
     Display(file_path) {
         this.Elem.src = file_path
+    }
+
+    Transform() {
+        let transform =
+            'translate(' + (this.Offset.X + this.Translate.X) + 'px ,' + (this.Offset.Y + this.Translate.Y) + 'px ) ' +
+            'rotate(' + this.Angle + 'deg) ' +
+            'scale(' + this.Scale.X + ',' + this.Scale.Y + ')'
+
+        this.Elem.style.transform = transform
+    }
+
+    Reset() {
+        this.Scale.X = 1
+        this.Scale_Y = 1
+        this.Angle = 0
+        this.Translate.X = 0
+        this.Translate.Y = 0
+        this.Transform()
+    }
+
+    Move(x, y) {
+        this.Translate.X = x
+        this.Translate.Y = y
+        this.Transform()
+    }
+
+    Place(x, y) {
+        this.Offset.X += x
+        this.Offset.Y += y
+        this.Transform()
+    }
+
+    Flip_H() {
+        this.Scale.X = -this.Scale.X
+        this.Transform()
+    }
+
+    Flip_V() {
+        this.Scale.Y = -this.Scale.Y
+        this.Transform()
+    }
+
+    Rotate(direction) {
+        this.Angle += direction * 90
+        this.Transform()
+    }
+
+    Zoom(direction, increment) {
+
+        // Get the direction as + or - 1
+        direction = Math.sign(direction)
+
+        // Get increment as an absolute value
+        if (increment === undefined) {
+            increment = 0.1
+        } else {
+            increment = Math.abs(increment)
+        }
+
+        let scale_x = this.Scale.X
+        let scale_y = this.Scale.Y
+        let x_dir = Math.sign(this.Scale.X)
+        let y_dir = Math.sign(this.Scale.Y)
+        let min_zoom = 0.1
+
+        // Scale taking care of image flip
+        scale_x = scale_x + increment * direction * x_dir
+        if (Math.abs(scale_x) > min_zoom && x_dir === Math.sign(scale_x)) {
+            this.Scale.X = scale_x
+        } else {
+            this.Scale.X = min_zoom * x_dir
+        }
+
+        scale_y = scale_y + increment * direction * y_dir
+        if (Math.abs(scale_y) >= min_zoom && y_dir === Math.sign(scale_y)) {
+            this.Scale.Y = scale_y
+        } else {
+            this.Scale.Y = min_zoom * y_dir
+        }
+
+        this.Transform()
+
     }
 }
 var Image = new Image_C
@@ -112,112 +215,11 @@ function Copy() {
     clipboard.writeImage(image)
 }
 
-
-// Create a class to handle transformation
-class Transformation {
-    constructor(image_elem) {
-        this.Image_Elem = image_elem
-        this.Offset = { X: 0, Y: 0 }
-        this.Reset()
-    }
-
-    get Result() {
-        // Translation is needed to absolute center image
-        return 'translate(' + (this.Offset.X + this.Translate.X) + 'px ,' + (this.Offset.Y + this.Translate.Y) + 'px ) ' +
-            'rotate(' + this.Angle + 'deg) ' +
-            'scale(' + this.Scale_X + ',' + this.Scale_Y + ')'
-    }
-
-    Apply() {
-        this.Image_Elem.style.transform = this.Result
-    }
-
-    Reset() {
-        this.Scale_X = 1
-        this.Scale_Y = 1
-        this.Angle = 0
-        this.Translate = { X: 0, Y: 0 }
-        this.Update()
-    }
-
-    Update() {
-        this.Width = this.Image_Elem.clientWidth
-        this.Height = this.Image_Elem.clientHeight
-        this.Offset.X = -this.Width / 2
-        this.Offset.Y = -this.Height / 2
-        this.Apply()
-    }
-
-    Move(x, y) {
-        this.Translate.X = x
-        this.Translate.Y = y
-        this.Apply()
-    }
-
-    Place(x, y) {
-        this.Offset.X += x
-        this.Offset.Y += y
-        this.Apply()
-    }
-
-    Zoom(direction, increment) {
-
-        // Get the direction as + or - 1
-        direction = Math.sign(direction)
-
-        // Get increment as an absolute value
-        if (increment === undefined) {
-            increment = 0.1
-        } else {
-            increment = Math.abs(increment)
-        }
-
-        let scale_x = this.Scale_X
-        let scale_y = this.Scale_Y
-        let min_zoom = 0.1
-
-        // Scale taking care of image flip
-        scale_x = scale_x + increment * direction * Math.sign(this.Scale_X)
-        if (Math.abs(scale_x) > min_zoom && Math.sign(this.Scale_X) === Math.sign(scale_x)) {
-            this.Scale_X = scale_x
-        } else {
-            this.Scale_X = min_zoom * Math.sign(this.Scale_X)
-        }
-
-        scale_y = scale_y + increment * direction * Math.sign(this.Scale_Y)
-        if (Math.abs(scale_y) >= min_zoom && Math.sign(this.Scale_Y) === Math.sign(scale_y)) {
-            this.Scale_Y = scale_y
-        } else {
-            this.Scale_Y = min_zoom * Math.sign(this.Scale_Y)
-        }
-
-        this.Apply()
-
-    }
-
-    Flip_H() {
-        this.Scale_X = -this.Scale_X
-        this.Apply()
-    }
-
-    Flip_V() {
-        this.Scale_Y = -this.Scale_Y
-        this.Apply()
-    }
-
-    Rotate(direction) {
-        this.Angle += direction * 90
-        this.Apply()
-    }
-}
-
-Transform = new Transformation(Image_Elem)
-
 // Set callback functions
 
 // Handle update image properties after load
-Image_Elem.addEventListener('load', (e) => {
-    Transform.Update()
+Image.Elem.addEventListener('load', (e) => {
+    Image.Load()
 })
 
 // Handle drag and drop
@@ -234,20 +236,20 @@ document.addEventListener('drop', (e) => {
 
 // Handle drag move
 Image_Elem.addEventListener('mousedown', (e) => {
-    Drag_Start.x = e.x
-    Drag_Start.y = e.y
-    Click_Flag = true
+    Image.Drag_Start.X = e.x
+    Image.Drag_Start.Y = e.y
+    Image.Clicked = true
 })
 document.addEventListener('mousemove', (e) => {
-    if (Click_Flag) {
-        Transform.Move(e.x - Drag_Start.x, e.y - Drag_Start.y)
+    if (Image.Clicked) {
+        Image.Move(e.x - Image.Drag_Start.X, e.y - Image.Drag_Start.Y)
     }
 })
 document.addEventListener('mouseup', (e) => {
-    if (Click_Flag) {
-        Click_Flag = false
-        Transform.Move(0, 0)
-        Transform.Place(e.x - Drag_Start.x, e.y - Drag_Start.y)
+    if (Image.Clicked) {
+        Image.Clicked = false
+        Image.Move(0, 0)
+        Image.Place(e.x - Image.Drag_Start.X, e.y - Image.Drag_Start.Y)
     }
 })
 
@@ -257,9 +259,9 @@ document.addEventListener('mousewheel', (e) => {
     let multiplier = 0.001
 
     if (rate > 0) {
-        Transform.Zoom(-1, rate * multiplier)
+        Image.Zoom(-1, rate * multiplier)
     } else {
-        Transform.Zoom(1, rate * multiplier)
+        Image.Zoom(1, rate * multiplier)
     }
 })
 
@@ -282,25 +284,25 @@ ipcRenderer.on("Previous", (event) => {
     File.Open(File.Get(-1))
 })
 ipcRenderer.on("Zoom_In", (event) => {
-    Transform.Zoom(1)
+    Image.Zoom(1)
 })
 ipcRenderer.on("Zoom_Out", (event) => {
-    Transform.Zoom(-1)
+    Image.Zoom(-1)
 })
 ipcRenderer.on("Reset", (event) => {
-    Transform.Reset()
+    Image.Reset()
 })
 ipcRenderer.on("Flip_Horizontal", (event) => {
-    Transform.Flip_H()
+    Image.Flip_H()
 })
 ipcRenderer.on("Flip_Vertical", (event) => {
-    Transform.Flip_V()
+    Image.Flip_V()
 })
 ipcRenderer.on("Rotate_CW", (event) => {
-    Transform.Rotate(1)
+    Image.Rotate(1)
 })
 ipcRenderer.on("Rotate_CCW", (event) => {
-    Transform.Rotate(-1)
+    Image.Rotate(-1)
 })
 ipcRenderer.on("Copy", (event) => {
     Copy()
@@ -317,5 +319,5 @@ mousetrap.bind('ctrl+v', () => {
     Paste()
 })
 mousetrap.bind('ctrl+=', () => {
-    Transform.Zoom(1)
+    Image.Zoom(1)
 })
