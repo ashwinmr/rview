@@ -171,11 +171,6 @@ class Image_C {
     }
 
     Zoom(direction, increment, pos) {
-        // Get distance from origin before zoom
-        let dist_before = { x: 0, y: 0 }
-        if (pos !== undefined) {
-            dist_before = { x: pos.x - this.Origin.X, y: pos.y - this.Origin.Y }
-        }
 
         // Get the direction as + or - 1
         direction = Math.sign(direction)
@@ -187,37 +182,38 @@ class Image_C {
             increment = Math.abs(increment)
         }
 
-        let scale_x = this.Scale.X
-        let scale_y = this.Scale.Y
-        let x_dir = Math.sign(this.Scale.X)
-        let y_dir = Math.sign(this.Scale.Y)
+        // Store original scale and direction
+        let scale = { x: this.Scale.X, y: this.Scale.Y }
+        let dir = { x: Math.sign(this.Scale.X), y: Math.sign(this.Scale.Y) }
         let min_zoom = 0.1
 
-        // Scale taking care of image flip
-        scale_x = scale_x + increment * direction * x_dir
-        if (Math.abs(scale_x) > min_zoom && x_dir === Math.sign(scale_x)) {
-            this.Scale.X = scale_x
-        } else {
-            this.Scale.X = min_zoom * x_dir
+        // Scale while taking care of image flip
+        scale.x = scale.x + increment * direction * dir.x
+        if (Math.abs(scale.x) < min_zoom || dir.x !== Math.sign(scale.x)) {
+            scale.x = min_zoom * dir.x
         }
 
-        scale_y = scale_y + increment * direction * y_dir
-        if (Math.abs(scale_y) >= min_zoom && y_dir === Math.sign(scale_y)) {
-            this.Scale.Y = scale_y
-        } else {
-            this.Scale.Y = min_zoom * y_dir
+        // Scale while taking care of image flip
+        scale.y = scale.y + increment * direction * dir.y
+        if (Math.abs(scale.y) < min_zoom || dir.y !== Math.sign(scale.y)) {
+            scale.y = min_zoom * dir.y
         }
 
-        this.Transform()
+        // Translate the image to keep same mouse position
 
-        // Get distance from origin after zoom
-        let dist_after = { x: 0, y: 0 }
+        // Get distance to translate
+        let dist = { x: 0, y: 0 }
         if (pos !== undefined) {
-            dist_after = { x: pos.x - this.Origin.X, y: pos.y - this.Origin.Y }
+            dist.x = -(pos.x - this.Origin.X) * (scale.x / this.Scale.X - 1)
+            dist.y = -(pos.y - this.Origin.Y) * (scale.y / this.Scale.Y - 1)
         }
 
-        // Place the image at the difference in distance
-        this.Place(dist_before.x - dist_after.x, dist_before.y - dist_after.y)
+        // Store the new scale
+        this.Scale.X = scale.x
+        this.Scale.Y = scale.y
+
+        // Place the image at the distance, and automatically transform
+        this.Place(dist.x, dist.y)
     }
 }
 var Image = new Image_C
