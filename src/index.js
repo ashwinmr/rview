@@ -89,31 +89,33 @@ class Image_C {
         this.Offset = { X: 0, Y: 0 }
         this.Translate = { X: 0, Y: 0 }
         this.Scale = { X: 1, Y: 1 }
-        this.Width_Old = 0
-        this.Height_Old = 0
+        this.Width_Cont = 0 // Width as seen by document flow
+        this.Height_Cont = 0 // Width as seen by document flow
         this.Clicked = false
         this.Drag_Start = { X: 0, Y: 0 }
         this.Angle = 0
     }
 
-    get Width() {
-        return this.Elem.clientWidth
-    }
-
-    get Height() {
-        return this.Elem.clientHeight
+    get Origin() {
+        let origin = { X: 0, Y: 0 }
+        origin.X = this.Elem.getBoundingClientRect().x + this.Elem.getBoundingClientRect().width / 2
+        origin.Y = this.Elem.getBoundingClientRect().y + this.Elem.getBoundingClientRect().height / 2
+        return origin
     }
 
     Update() {
-        // Remove offset due to old width
-        this.Offset.X -= -this.Width_Old / 2
-        this.Offset.Y -= -this.Height_Old / 2
+        // Remove offset due to previous image width
+        this.Offset.X -= -this.Width_Cont / 2
+        this.Offset.Y -= -this.Height_Cont / 2
 
-        // Store new width and offsets
-        this.Width_Old = this.Width
-        this.Height_Old = this.Height
-        this.Offset.X += -this.Width / 2
-        this.Offset.Y += -this.Height / 2
+        // Store new image container width
+        this.Width_Cont = this.Elem.clientWidth
+        this.Height_Cont = this.Elem.clientHeight
+
+        // Store new offset due to container
+        this.Offset.X += -this.Width_Cont / 2
+        this.Offset.Y += -this.Height_Cont / 2
+
         this.Transform()
     }
 
@@ -136,8 +138,8 @@ class Image_C {
         this.Angle = 0
         this.Translate.X = 0
         this.Translate.Y = 0
-        this.Offset.X = -this.Width / 2
-        this.Offset.Y = -this.Height / 2
+        this.Offset.X = -this.Width_Cont / 2
+        this.Offset.Y = -this.Height_Cont / 2
         this.Transform()
     }
 
@@ -168,7 +170,12 @@ class Image_C {
         this.Transform()
     }
 
-    Zoom(direction, increment) {
+    Zoom(direction, increment, pos) {
+        // Get distance from origin before zoom
+        let dist_before = { x: 0, y: 0 }
+        if (pos !== undefined) {
+            dist_before = { x: pos.x - this.Origin.X, y: pos.y - this.Origin.Y }
+        }
 
         // Get the direction as + or - 1
         direction = Math.sign(direction)
@@ -203,6 +210,14 @@ class Image_C {
 
         this.Transform()
 
+        // Get distance from origin after zoom
+        let dist_after = { x: 0, y: 0 }
+        if (pos !== undefined) {
+            dist_after = { x: pos.x - this.Origin.X, y: pos.y - this.Origin.Y }
+        }
+
+        // Place the image at the difference in distance
+        this.Place(dist_before.x - dist_after.x, dist_before.y - dist_after.y)
     }
 }
 var Image = new Image_C
@@ -267,12 +282,18 @@ document.addEventListener('mouseup', (e) => {
 document.addEventListener('mousewheel', (e) => {
     let rate = e.deltaY
     let multiplier = 0.001
-
+    let pos = { x: e.x, y: e.y }
     if (rate > 0) {
-        Image.Zoom(-1, rate * multiplier)
+        Image.Zoom(-1, rate * multiplier, pos)
     } else {
-        Image.Zoom(1, rate * multiplier)
+        Image.Zoom(1, rate * multiplier, pos)
     }
+})
+
+document.addEventListener('mousemove', (e) => {
+    var x = e.pageX;
+    var y = e.pageY;
+    e.target.title = "X is " + x + " and Y is " + y;
 })
 
 // Handle resizing the window
