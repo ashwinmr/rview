@@ -67,6 +67,16 @@ var File = new function() {
         }
     }
 
+    // Save file
+    this.Save = function(save_path) {
+        if (!this.Opened) {
+            return
+        }
+        let file_path = this.Get_Path()
+        let image = nativeImage.createFromPath(file_path).toPNG()
+        fs.writeFile(save_path, image, () => {});
+    }
+
 }
 
 // Create object to handle image
@@ -197,24 +207,6 @@ class Transformation {
 
 Transform = new Transformation(Image_Elem)
 
-
-
-
-
-// Open image from data url
-function Open_Image(data_url) {
-    Image.Display(data_url)
-}
-
-// Save file
-function Save_File(save_path) {
-    if (Cur_Dir !== undefined && Cur_File !== undefined) {
-        let file_path = path.join(Cur_Dir, Cur_File)
-        let image = nativeImage.createFromPath(file_path).toPNG()
-        fs.writeFile(save_path, image, () => {});
-    }
-}
-
 // Set callback functions
 
 // Handle drag and drop
@@ -276,7 +268,7 @@ ipcRenderer.on("Open", (event, file_path) => {
     File.Open(file_path)
 })
 ipcRenderer.on("Save", (event, file_path) => {
-    Save_File(file_path)
+    File.Save(file_path)
 })
 ipcRenderer.on("Next", (event) => {
     File.Open(File.Get_File(1))
