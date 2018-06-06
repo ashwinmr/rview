@@ -56,6 +56,14 @@ app.on('ready', function createWindow() {
                     }
                 },
                 {
+                    // Delete
+                    label: 'Delete',
+                    accelerator: 'delete',
+                    click() {
+                        win.webContents.send("Delete")
+                    }
+                },
+                {
                     // Exit
                     label: 'Quit',
                     accelerator: 'ctrl+q',

@@ -2,8 +2,12 @@
 const path = require('path')
 const fs = require('fs')
 const mousetrap = require('mousetrap') // Can't be used in node. Only in browser
+const trash = require('trash')
 
-const Debug = true
+// Debug options
+const Debug = {
+    Cursor: false,
+}
 
 // Create object to handle file
 class File_C {
@@ -19,38 +23,52 @@ class File_C {
         }
     }
 
+    get List() {
+        if (this.Opened) {
+            return fs.readdirSync(this.Dir)
+        }
+    }
+
     // Open file and store data
     Open(file_path) {
         if (file_path === undefined) {
+            Image.Display('')
+            Image.Elem.title = ''
             return
         }
         this.Opened = true
-        let dir = path.dirname(file_path)
-
-        this.Dir = dir
+        this.Dir = path.dirname(file_path)
         this.Name = path.basename(file_path)
-
-        fs.readdir(dir, (err, files) => {
-            this.List = files
-        })
+        this.Index = this.List.indexOf(this.Name)
 
         // Display the image
         Image.Display(file_path)
     }
 
-    // Get file path from a list of files at an increment from the current file path
-    Get(increment) {
-        let name = this.Name
-        let dir = this.Dir
-        let list = this.List
-        let wrap = false // Allow wrapping of index
-
-        // Return if a file has not been opened
-        if (name === undefined || dir === undefined || list === undefined) {
+    Delete() {
+        if (!this.Opened) {
             return
         }
-        let cur_ind = list.indexOf(name)
-        let ind = cur_ind + increment
+        let cur_file = path.basename(Image.Elem.src)
+        if (cur_file === this.Name) {
+            trash(File.Path).then(() => {
+                this.Open(this.Get(0, false))
+            })
+        }
+    }
+
+    // Get file path from a list of files at an increment from the current file path
+    Get(increment, wrap) {
+        // Return if a file has not been opened
+        if (!this.Opened) {
+            return
+        }
+        let list = this.List
+        if (list.length < 1) {
+            return
+        }
+        let dir = this.Dir
+        let ind = this.Index + increment
 
         if (wrap) {
             // Wrap index for array
@@ -104,7 +122,8 @@ class Image_C {
         this.Width_Cont = this.Elem.clientWidth
         this.Height_Cont = this.Elem.clientHeight
 
-        // Store new offset due to container
+        // Store new offset due to container. 
+        // This moves the image center to top left corner
         this.Offset.X += -this.Width_Cont / 2
         this.Offset.Y += -this.Height_Cont / 2
 
@@ -240,7 +259,7 @@ document.addEventListener('drop', (e) => {
 })
 
 // Handle drag move
-Image.Elem.addEventListener('mousedown', (e) => {
+document.addEventListener('mousedown', (e) => {
     Image.Drag_Start.X = e.x
     Image.Drag_Start.Y = e.y
     Image.Clicked = true
@@ -269,7 +288,7 @@ document.addEventListener('mousewheel', (e) => {
 })
 
 // Show cursor coordiantes when debug is enabled
-if (Debug) {
+if (Debug.Cursor) {
     document.addEventListener('mousemove', (e) => {
         var x = e.pageX;
         var y = e.pageY;
@@ -283,49 +302,52 @@ window.addEventListener('resize', (e) => {
 })
 
 // Handle logging main process messages to console
-ipcRenderer.on("Log", (event, message) => {
+ipcRenderer.on("Log", (e, message) => {
     console.log(message)
 })
 
 // Handle main process events
-ipcRenderer.on("Open", (event, file_path) => {
+ipcRenderer.on("Open", (e, file_path) => {
     File.Open(file_path)
 })
-ipcRenderer.on("Save", (event, file_path) => {
+ipcRenderer.on("Save", (e, file_path) => {
     File.Save(file_path)
 })
-ipcRenderer.on("Next", (event) => {
-    File.Open(File.Get(1))
+ipcRenderer.on("Next", (e) => {
+    File.Open(File.Get(1, false))
 })
-ipcRenderer.on("Previous", (event) => {
-    File.Open(File.Get(-1))
+ipcRenderer.on("Previous", (e) => {
+    File.Open(File.Get(-1, false))
 })
-ipcRenderer.on("Zoom_In", (event) => {
+ipcRenderer.on("Zoom_In", (e) => {
     Image.Zoom(1)
 })
-ipcRenderer.on("Zoom_Out", (event) => {
+ipcRenderer.on("Zoom_Out", (e) => {
     Image.Zoom(-1)
 })
-ipcRenderer.on("Reset", (event) => {
+ipcRenderer.on("Reset", (e) => {
     Image.Reset()
 })
-ipcRenderer.on("Flip_Horizontal", (event) => {
+ipcRenderer.on("Flip_Horizontal", (e) => {
     Image.Flip_H()
 })
-ipcRenderer.on("Flip_Vertical", (event) => {
+ipcRenderer.on("Flip_Vertical", (e) => {
     Image.Flip_V()
 })
-ipcRenderer.on("Rotate_CW", (event) => {
+ipcRenderer.on("Rotate_CW", (e) => {
     Image.Rotate(1)
 })
-ipcRenderer.on("Rotate_CCW", (event) => {
+ipcRenderer.on("Rotate_CCW", (e) => {
     Image.Rotate(-1)
 })
-ipcRenderer.on("Copy", (event) => {
+ipcRenderer.on("Copy", (e) => {
     Copy()
 })
-ipcRenderer.on("Paste", (event) => {
+ipcRenderer.on("Paste", (e) => {
     Paste()
+})
+ipcRenderer.on("Delete", (e) => {
+    File.Delete()
 })
 
 // Add keyboard shortcuts 
@@ -337,4 +359,36 @@ mousetrap.bind('ctrl+v', () => {
 })
 mousetrap.bind('ctrl+=', () => {
     Image.Zoom(1)
+})
+
+// Add button shortcuts
+document.getElementById('next').addEventListener('click', (e) => {
+    File.Open(File.Get(1))
+})
+document.getElementById('previous').addEventListener('click', (e) => {
+    File.Open(File.Get(-1))
+})
+document.getElementById('flip_h').addEventListener('click', (e) => {
+    Image.Flip_H()
+})
+document.getElementById('flip_v').addEventListener('click', (e) => {
+    Image.Flip_V()
+})
+document.getElementById('reset').addEventListener('click', (e) => {
+    Image.Reset()
+})
+document.getElementById('rotate_cw').addEventListener('click', (e) => {
+    Image.Rotate(+1)
+})
+document.getElementById('rotate_ccw').addEventListener('click', (e) => {
+    Image.Rotate(-1)
+})
+document.getElementById('zoom_in').addEventListener('click', (e) => {
+    Image.Zoom(+1)
+})
+document.getElementById('zoom_out').addEventListener('click', (e) => {
+    Image.Zoom(-1)
+})
+document.getElementById('delete').addEventListener('click', (e) => {
+    File.Delete()
 })

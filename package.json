@@ -15,6 +15,7 @@
         "electron-packager": "^12.0.2"
     },
     "dependencies": {
-        "mousetrap": "^1.6.1"
+        "mousetrap": "^1.6.1",
+        "trash": "^4.3.0"
     }
 }
