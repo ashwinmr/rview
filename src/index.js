@@ -86,7 +86,12 @@ class File_C {
             return
         }
         let file_path = this.Path
-        let image = nativeImage.createFromPath(file_path).toPNG()
+        let image = undefined
+        if (path.extname(save_path) === '.jpg') {
+            image = nativeImage.createFromPath(file_path).toJPEG(100)
+        } else {
+            image = nativeImage.createFromPath(file_path).toPNG()
+        }
         fs.writeFile(save_path, image, () => {});
     }
 }

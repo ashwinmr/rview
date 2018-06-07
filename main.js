@@ -44,11 +44,10 @@ app.on('ready', function createWindow() {
                     click() {
                         dialog.showSaveDialog({
                                 title: "Save",
-                                filters: [{ name: 'Image', extensions: ['png'] }]
+                                filters: [{ name: 'Image', extensions: ['png', 'jpg'] }]
                             },
                             (save_path) => {
                                 if (save_path != undefined) {
-                                    console.log(save_path)
                                     win.webContents.send("Save", save_path)
                                 }
                             }
