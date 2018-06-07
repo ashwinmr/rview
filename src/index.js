@@ -25,7 +25,10 @@ class File_C {
 
     get List() {
         if (this.Opened) {
-            return fs.readdirSync(this.Dir)
+            let file_list = fs.readdirSync(this.Dir).filter((file) => {
+                return Image.Format_List.includes(path.extname(file))
+            })
+            return file_list
         }
     }
 
@@ -109,6 +112,16 @@ class Image_C {
         this.Clicked = false
         this.Drag_Start = { X: 0, Y: 0 }
         this.Angle = 0
+        this.Format_List = [
+            '.jpg',
+            '.jpeg',
+            '.gif',
+            '.png',
+            '.apng',
+            '.svg',
+            '.bmp',
+            '.ico',
+        ]
     }
 
     get Origin() {
