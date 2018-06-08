@@ -21,7 +21,7 @@
 #btn_bar {
     user-select: none;
     position: fixed;
-    bottom: 3%;
+    bottom: 0;
     left: 50%;
     transform: translate(-50%);
     white-space: nowrap;
@@ -36,7 +36,7 @@ button {
     outline: none;
     height: 40px;
     width: 40px;
-    margin: 10px;
+    margin: 5px 10px 5px 10px;
 }
 
 button:hover {
