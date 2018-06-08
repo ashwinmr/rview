@@ -26,7 +26,7 @@ class File_C {
     get List() {
         if (this.Opened) {
             let file_list = fs.readdirSync(this.Dir).filter((file) => {
-                return Image.Format_List.includes(path.extname(file))
+                return Image.Format_List.includes(path.extname(file.toLocaleLowerCase()))
             })
             return file_list
         }
