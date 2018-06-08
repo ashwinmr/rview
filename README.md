@@ -4,6 +4,13 @@ A simple electron app for viewing images.
 
 ![Electron Viewer](./assets/screenshots/main.png)
 
+## Features
+
+- Pointer zoom
+- Flip
+- Rotate
+- Navigate directory
+
 ## Getting Started
 
 ```javascript
