@@ -6,7 +6,8 @@
     "scripts": {
         "start": "electron .",
         "package": "electron-packager . --asar --overwrite=true --icon=assets/icons/main_icon.ico",
-        "dist": "electron-builder"
+        "dist": "electron-builder",
+		"pack": "electron-builder --dir"
     },
     "build": {
         "icon": "assets/icons/main_icon.ico"
