@@ -2,7 +2,7 @@
 
 A simple electron app for viewing images.
 
-![Electron Viewer](./assets/screenshots/main.png)
+![Electron Viewer](./screenshots/main.png)
 
 ## Features
 

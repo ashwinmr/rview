@@ -1,6 +1,5 @@
-node_modules/
-test/
-Electron_Viewer-win32-x64/
-Electron_Viewer.zip
-Electron_Viewer/
+app/node_modules/
+app/Electron_Viewer-win32-x64/
+*.zip
 *.lnk
+test/
