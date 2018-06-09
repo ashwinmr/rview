@@ -14,6 +14,7 @@ A simple electron app for viewing images.
 ## Getting Started
 
 ```javascript
+cd app
 npm install
 npm start
 ```
