@@ -17,6 +17,10 @@ A simple electron app for viewing images.
 cd app
 npm install
 npm start
+
+or
+
+download from release tab
 ```
 
 ## To-Do

@@ -26,7 +26,7 @@ class File_C {
     get List() {
         if (this.Opened) {
             let file_list = fs.readdirSync(this.Dir).filter((file) => {
-                return Image.Format_List.includes(path.extname(file.toLocaleLowerCase()))
+                return Image.Format_List.includes(path.extname(file.toLowerCase()))
             })
             return file_list
         }
@@ -43,6 +43,7 @@ class File_C {
         this.Dir = path.dirname(file_path)
         this.Name = path.basename(file_path)
         this.Index = this.List.indexOf(this.Name)
+        document.getElementById('title').innerHTML = this.Name
 
         // Display the image
         Image.Display(file_path)
