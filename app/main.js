@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, Menu, ipcMain} = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -7,7 +7,8 @@ app.on('ready', function createWindow() {
     // Create the browser window.
     win = new BrowserWindow({
         show: false, // Show and maximize later
-        icon: path.join(__dirname, 'assets', 'icons', 'main_icon.ico')
+        icon: path.join(__dirname, 'assets', 'icons', 'main_icon.ico'),
+        resizable: true,
     })
 
     // Load the index.html of the app.
