@@ -2,6 +2,7 @@
     "name": "app",
     "version": "1.0.0",
     "description": " ",
+    "repository": {},
     "main": "main.js",
     "scripts": {
         "start": "electron .",
