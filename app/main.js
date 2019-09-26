@@ -9,6 +9,9 @@ app.on('ready', function createWindow() {
         show: false, // Show and maximize later
         icon: path.join(__dirname, 'assets', 'icons', 'main_icon.ico'),
         resizable: true,
+        webPreferences: {
+            nodeIntegration: true
+        }
     })
 
     // Load the index.html of the app.

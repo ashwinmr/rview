@@ -18,8 +18,8 @@
     "license": "MIT",
     "dependencies": {},
     "devDependencies": {
-        "electron": "^2.0.2",
-        "electron-builder": "^20.15.1",
-        "electron-packager": "^12.1.0"
+        "electron": "^6.0.10",
+        "electron-builder": "^21.2.0",
+        "electron-packager": "^14.0.6"
     }
 }
