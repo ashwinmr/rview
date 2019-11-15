@@ -2,8 +2,9 @@ const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 
-const example_addon = require('./build/Release/example_addon.node');
-console.log('addon:', example_addon.hello("World"));
+// Use the example cpp addon
+// const example_addon = require('./build/Release/example_addon.node');
+// console.log('cpp addon: ', example_addon.hello("from cpp"));
 
 // Start the program when app is ready
 app.on('ready', function createWindow() {
