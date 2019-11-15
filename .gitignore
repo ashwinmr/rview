@@ -1,7 +1,5 @@
-app/node_modules/
-app/Electron_Viewer-win32-x64/
-app/dist/
-Electron_Viewer/
+/app/node_modules/
+/app/dist/
 *.zip
 *.lnk
-test/
+temp/
