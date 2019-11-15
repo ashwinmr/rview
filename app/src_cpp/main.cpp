@@ -1,7 +1,7 @@
 #include <napi.h>
 
 // Example function
-std::string hello(std::string inp){
+std::string Hello(std::string inp){
   return "Hello " + inp;
 }
 
@@ -15,9 +15,10 @@ Napi::String HelloWrapped(const Napi::CallbackInfo& info)
 
   Napi::String inp = info[0].As<Napi::String>();
 
-  return Napi::String::New(env,hello(inp));
+  return Napi::String::New(env,Hello(inp));
 }
 
+// Initialize function
 Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
   exports.Set(
     "hello", Napi::Function::New(env, HelloWrapped)
@@ -26,4 +27,5 @@ Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
   return exports;
 }
 
-NODE_API_MODULE(testaddon, InitAll)
+// Initialize
+NODE_API_MODULE(example_addon, InitAll)

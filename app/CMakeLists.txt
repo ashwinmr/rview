@@ -1,4 +1,4 @@
-project (testaddon)
+project (example_addon)
 
 # Include N-API wrappers
 execute_process(COMMAND node -p "require('node-addon-api').include"

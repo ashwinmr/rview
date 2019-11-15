@@ -2,9 +2,8 @@ const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 
-const testAddon = require('./build/Release/testaddon.node');
-console.log('addon:', testAddon.hello("World"));
-module.exports = testAddon;
+const example_addon = require('./build/Release/example_addon.node');
+console.log('addon:', example_addon.hello("World"));
 
 // Start the program when app is ready
 app.on('ready', function createWindow() {
