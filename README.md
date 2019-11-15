@@ -4,11 +4,11 @@ A template for electron apps
 
 ![Screenshot](./screenshots/sc_1.png)
 
-## Features
+# Features
 
 - Feature
 
-## Getting Started
+# Getting Started
 
 ```javascript
 cd app
@@ -20,6 +20,13 @@ or
 download from release tab
 ```
 
-## To-Do
+# Create installer
+```
+cd app
+yarn dist
+```
+The installer will be found in `app/dist`
+
+# To-Do
 
 - [ ] Item
