@@ -4,7 +4,12 @@
     "description": " ",
     "repository": {},
     "main": "main.js",
+    "cmake-js": {
+        "runtime": "electron",
+        "runtimeVersion": "6.0.10"
+    },
     "scripts": {
+        "install": "cmake-js compile",
         "start": "electron .",
         "package": "electron-packager . --asar --overwrite=true --icon=assets/icons/main_icon.ico",
         "dist": "electron-builder",
@@ -16,8 +21,11 @@
     "keywords": [],
     "author": "",
     "license": "MIT",
-    "dependencies": {},
+    "dependencies": {
+        "node-addon-api": "^1.7.1"
+    },
     "devDependencies": {
+        "cmake-js": "^6.0.0",
         "electron": "^6.0.10",
         "electron-builder": "^21.2.0",
         "electron-packager": "^14.0.6",
