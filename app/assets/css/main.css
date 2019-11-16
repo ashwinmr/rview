@@ -21,7 +21,7 @@
 #btn_bar {
     user-select: none;
     position: fixed;
-    bottom: 0;
+    bottom: 2%;
     left: 50%;
     transform: translate(-50%);
     white-space: nowrap;
@@ -40,11 +40,11 @@ button {
 }
 
 button:hover {
-    filter: hue-rotate(180deg);
+    filter: brightness(0.6);
 }
 
 button:active {
-    filter: invert(1);
+    filter: brightness(0.2);
 }
 
 
