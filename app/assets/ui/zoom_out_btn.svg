@@ -1,1 +1,27 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100"><defs><style>.cls-1{fill:url(#linear-gradient);}.cls-2{fill:none;}</style><linearGradient id="linear-gradient" x1="1006.06" y1="361.26" x2="1006.06" y2="290.28" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d45800"/><stop offset="0.32" stop-color="#df6605"/><stop offset="0.93" stop-color="#fb8c13"/><stop offset="1" stop-color="#ff9115"/></linearGradient></defs><title>zoom_out_btn</title><path id="zoom_out" data-name="zoom out" class="cls-1" d="M1008.37,290.35a35.49,35.49,0,1,0,33.11,33.11A35.5,35.5,0,0,0,1008.37,290.35Zm14.35,44.13h-32a2,2,0,0,1-2-2v-8a2,2,0,0,1,2-2h32a2,2,0,0,1,2,2v8A2,2,0,0,1,1022.72,334.48Z" transform="translate(-956.06 -275.77)"/><rect class="cls-2" width="100" height="100"/></svg>
+<svg id="Base" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <title>zoom_out_btn</title>
+  <g>
+    <g id="zoom_out" data-name="zoom out">
+      <path class="cls-1" d="M50,18.51c0.68,0,1.37,0,2.05.07A31.49,31.49,0,0,1,50,81.49c-0.68,0-1.37,0-2.05-.07A31.49,31.49,0,0,1,50,18.51M34,60.91H66a6,6,0,0,0,6-6v-8a6,6,0,0,0-6-6H34a6,6,0,0,0-6,6v8a6,6,0,0,0,6,6m16-46.4a35.49,35.49,0,0,0-2.31,70.91c0.77,0,1.54.07,2.31,0.07a35.49,35.49,0,0,0,2.31-70.91c-0.77,0-1.54-.07-2.31-0.07h0ZM34,56.91a2,2,0,0,1-2-2v-8a2,2,0,0,1,2-2H66a2,2,0,0,1,2,2v8a2,2,0,0,1-2,2H34Z"/>
+      <path class="cls-2" d="M52.31,14.58A35.49,35.49,0,1,0,85.42,47.69,35.5,35.5,0,0,0,52.31,14.58ZM66,56.91H34a2,2,0,0,1-2-2v-8a2,2,0,0,1,2-2H66a2,2,0,0,1,2,2v8A2,2,0,0,1,66,56.91Z"/>
+    </g>
+    <rect class="cls-3" width="100" height="100"/>
+  </g>
+</svg>

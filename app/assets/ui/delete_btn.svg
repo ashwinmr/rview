@@ -1,1 +1,27 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100"><defs><style>.cls-1{fill:url(#linear-gradient);}.cls-2{fill:none;}</style><linearGradient id="linear-gradient" x1="1738.21" y1="361.77" x2="1738.21" y2="289.77" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d45800"/><stop offset="0.32" stop-color="#df6605"/><stop offset="0.93" stop-color="#fb8c13"/><stop offset="1" stop-color="#ff9115"/></linearGradient></defs><title>delete_btn</title><path class="cls-1" d="M1746.71,294.77v-3a2,2,0,0,0-2-2h-13a2,2,0,0,0-2,2v3a2,2,0,0,1-2,2h-13a2,2,0,0,0-2,2v5a2,2,0,0,0,2,2h1a2,2,0,0,1,2,2v52a2,2,0,0,0,2,2h37a2,2,0,0,0,2-2v-52a2,2,0,0,1,2-2h1a2,2,0,0,0,2-2v-5a2,2,0,0,0-2-2h-13A2,2,0,0,1,1746.71,294.77Z" transform="translate(-1688.21 -275.77)"/><rect class="cls-2" width="100" height="100"/></svg>
+<svg id="Base" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <title>delete_btn</title>
+  <g>
+    <g>
+      <path class="cls-1" d="M54.5,18.8v1a6,6,0,0,0,6,6h11v1.08a6,6,0,0,0-5,5.92v50h-33v-50a6,6,0,0,0-5-5.92V25.8h11a6,6,0,0,0,6-6v-1h9m2-4h-13a2,2,0,0,0-2,2v3a2,2,0,0,1-2,2h-13a2,2,0,0,0-2,2v5a2,2,0,0,0,2,2h1a2,2,0,0,1,2,2v52a2,2,0,0,0,2,2h37a2,2,0,0,0,2-2v-52a2,2,0,0,1,2-2h1a2,2,0,0,0,2-2v-5a2,2,0,0,0-2-2h-13a2,2,0,0,1-2-2v-3a2,2,0,0,0-2-2h0Z"/>
+      <path class="cls-2" d="M58.5,19.8v-3a2,2,0,0,0-2-2h-13a2,2,0,0,0-2,2v3a2,2,0,0,1-2,2h-13a2,2,0,0,0-2,2v5a2,2,0,0,0,2,2h1a2,2,0,0,1,2,2v52a2,2,0,0,0,2,2h37a2,2,0,0,0,2-2v-52a2,2,0,0,1,2-2h1a2,2,0,0,0,2-2v-5a2,2,0,0,0-2-2h-13A2,2,0,0,1,58.5,19.8Z"/>
+    </g>
+    <rect class="cls-3" y="0.8" width="100" height="100"/>
+  </g>
+</svg>

@@ -1,1 +1,27 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100"><defs><style>.cls-1{fill:url(#linear-gradient);}.cls-2{fill:none;}</style><linearGradient id="linear-gradient" x1="991.97" y1="94.79" x2="937.97" y2="94.79" gradientTransform="translate(1283.89 -639.2) rotate(90)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d45800"/><stop offset="0.32" stop-color="#df6605"/><stop offset="0.93" stop-color="#fb8c13"/><stop offset="1" stop-color="#ff9115"/></linearGradient></defs><title>flip_h_btn</title><path class="cls-1" d="M1227.6,352.77a2,2,0,0,0,2-2v-50a2,2,0,0,0-2-2h-77a2,2,0,0,0-2,2v50a2,2,0,0,0,2,2h77Zm-61.11-22.58v-8a2,2,0,0,1,2-2h19a2,2,0,0,0,2-2v-2.9a2,2,0,0,1,3-1.73l18.87,10.9a2,2,0,0,1,0,3.46l-18.87,10.89a2,2,0,0,1-3-1.73v-2.9a2,2,0,0,0-2-2h-19A2,2,0,0,1,1166.49,330.19Z" transform="translate(-1139.1 -275.77)"/><rect class="cls-2" width="100" height="100"/></svg>
+<svg id="Base" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <title>flip_h_btn</title>
+  <g>
+    <g>
+      <path class="cls-1" d="M86.5,27V73h-73V27h73M46.38,40.43h-17a6,6,0,0,0-6,6v8a6,6,0,0,0,6,6h17v0.9a6,6,0,0,0,6,6,6,6,0,0,0,3-.81L74.25,55.63a6,6,0,0,0,0-10.39L55.38,34.34a6,6,0,0,0-9,5.19v0.9M88.5,23h-77a2,2,0,0,0-2,2V75a2,2,0,0,0,2,2h77a2,2,0,0,0,2-2V25a2,2,0,0,0-2-2h0ZM48.38,44.43a2,2,0,0,0,2-2v-2.9a2,2,0,0,1,3-1.73L72.25,48.7a2,2,0,0,1,0,3.46L53.38,63.06a2,2,0,0,1-3-1.73v-2.9a2,2,0,0,0-2-2h-19a2,2,0,0,1-2-2v-8a2,2,0,0,1,2-2h19Z"/>
+      <path class="cls-2" d="M88.5,77a2,2,0,0,0,2-2V25a2,2,0,0,0-2-2h-77a2,2,0,0,0-2,2V75a2,2,0,0,0,2,2h77ZM27.39,54.42v-8a2,2,0,0,1,2-2h19a2,2,0,0,0,2-2v-2.9a2,2,0,0,1,3-1.73L72.25,48.7a2,2,0,0,1,0,3.46L53.38,63.06a2,2,0,0,1-3-1.73v-2.9a2,2,0,0,0-2-2h-19A2,2,0,0,1,27.39,54.42Z"/>
+    </g>
+    <rect class="cls-3" width="100" height="100"/>
+  </g>
+</svg>
