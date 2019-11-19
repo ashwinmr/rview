@@ -1,7 +1,18 @@
-const { app, Menu, dialog, globalShortcut, BrowserWindow } = require('electron')
+const { app, Menu, dialog, globalShortcut, BrowserWindow, ipcMain } = require('electron')
 const fs = require('fs')
 const path = require('path')
 const url = require('url')
+
+// Toggle fullscreen
+function Toggle_Fullscreen(win) {
+    if (win.isFullScreen()) {
+        win.setMenuBarVisibility(true)
+        win.setFullScreen(false)
+    } else {
+        win.setMenuBarVisibility(false)
+        win.setFullScreen(true)
+    }
+}
 
 // Start the program when app is ready
 app.on('ready', function createWindow() {
@@ -110,7 +121,11 @@ app.on('ready', function createWindow() {
                 },
                 {
                     label: 'Reset',
-                    click() { win.webContents.send('Reset') },
+                    click() {
+                        win.setFullScreen(false)
+                        win.setMenuBarVisibility(true)
+                        win.webContents.send('Reset')
+                    },
                     accelerator: 'Esc'
                 },
                 {
@@ -127,6 +142,11 @@ app.on('ready', function createWindow() {
                     label: 'Rotate Clockwise',
                     click() { win.webContents.send('Rotate_CW') },
                     accelerator: 'Ctrl+R'
+                },
+                {
+                    label: 'Toggle Fullscreen',
+                    click() { Toggle_Fullscreen(win) },
+                    accelerator: 'F11'
                 },
             ]
         },
@@ -158,6 +178,11 @@ app.on('ready', function createWindow() {
         // Show and maximize
         win.maximize()
 
+    })
+
+    // Handle toggle fullscreen
+    ipcMain.on('toggle_fullscreen', (e) => {
+        Toggle_Fullscreen(win)
     })
 
 })

@@ -408,3 +408,6 @@ document.getElementById('zoom_out').addEventListener('click', (e) => {
 document.getElementById('delete').addEventListener('click', (e) => {
     File.Delete()
 })
+document.getElementById('fullscreen').addEventListener('click', (e) => {
+    ipcRenderer.send('toggle_fullscreen')
+})
