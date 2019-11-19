@@ -62,8 +62,8 @@ button:active {
     background: url(../ui/rotate_cw_btn.svg);
 }
 
-#rotate_ccw {
-    background: url(../ui/rotate_ccw_btn.svg);
+#fullscreen {
+    background: url(../ui/fullscreen_btn.svg);
 }
 
 #flip_h {
