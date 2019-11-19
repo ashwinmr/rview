@@ -19,7 +19,10 @@ app.on('ready', function createWindow() {
     // Create the browser window.
     win = new BrowserWindow({
         show: false, // Show and mazimize later
-        icon: path.join(__dirname, 'assets', 'icons', 'main_icon.ico')
+        icon: path.join(__dirname, 'assets', 'icons', 'main_icon.ico'),
+        webPreferences: {
+            nodeIntegration: true
+        }
     })
 
     // Load the index.html of the app.
