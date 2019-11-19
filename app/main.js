@@ -128,11 +128,6 @@ app.on('ready', function createWindow() {
                     click() { win.webContents.send('Rotate_CW') },
                     accelerator: 'Ctrl+R'
                 },
-                {
-                    label: 'Rotate Counter Clockwise',
-                    click() { win.webContents.send('Rotate_CCW') },
-                    accelerator: 'Shift+R'
-                },
             ]
         },
         {

@@ -399,9 +399,6 @@ document.getElementById('reset').addEventListener('click', (e) => {
 document.getElementById('rotate_cw').addEventListener('click', (e) => {
     Image.Rotate(+1)
 })
-document.getElementById('rotate_ccw').addEventListener('click', (e) => {
-    Image.Rotate(-1)
-})
 document.getElementById('zoom_in').addEventListener('click', (e) => {
     Image.Zoom(+1)
 })
