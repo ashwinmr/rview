@@ -258,6 +258,15 @@ function Copy() {
     clipboard.writeImage(image)
 }
 
+// Set Fullscreen
+function Set_Fullscreen(set_val) {
+    if (set_val) {
+        document.getElementById('btn_bar').classList.add('hover_show')
+    } else {
+        document.getElementById('btn_bar').classList.remove('hover_show')
+    }
+}
+
 // Set callback functions
 
 // Handle update image properties after load
@@ -367,6 +376,9 @@ ipcRenderer.on("Paste", (e) => {
 })
 ipcRenderer.on("Delete", (e) => {
     File.Delete()
+})
+ipcRenderer.on('Set_Fullscreen', (e, set_val) => {
+    Set_Fullscreen(set_val)
 })
 
 // Add keyboard shortcuts 

@@ -3,14 +3,25 @@ const fs = require('fs')
 const path = require('path')
 const url = require('url')
 
+// Set fullscreen
+function Set_Fullscreen(set_val) {
+    if (set_val) {
+        win.setFullScreen(true)
+        win.setMenuBarVisibility(false)
+        win.webContents.send('Set_Fullscreen', true)
+    } else {
+        win.setFullScreen(false)
+        win.setMenuBarVisibility(true)
+        win.webContents.send('Set_Fullscreen', false)
+    }
+}
+
 // Toggle fullscreen
 function Toggle_Fullscreen(win) {
     if (win.isFullScreen()) {
-        win.setMenuBarVisibility(true)
-        win.setFullScreen(false)
+        Set_Fullscreen(false)
     } else {
-        win.setMenuBarVisibility(false)
-        win.setFullScreen(true)
+        Set_Fullscreen(true)
     }
 }
 
@@ -125,8 +136,7 @@ app.on('ready', function createWindow() {
                 {
                     label: 'Reset',
                     click() {
-                        win.setFullScreen(false)
-                        win.setMenuBarVisibility(true)
+                        Set_Fullscreen(false)
                         win.webContents.send('Reset')
                     },
                     accelerator: 'Esc'
