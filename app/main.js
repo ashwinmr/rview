@@ -52,14 +52,13 @@ app.on('ready', function createWindow() {
                     accelerator: 'Ctrl+o',
                     click() {
                         dialog.showOpenDialog({
-                                title: "Open",
-                            },
-                            (file_paths) => {
-                                if (file_paths !== undefined) {
-                                    win.webContents.send("Open", file_paths[0])
-                                }
+                            title: "Open",
+                        }).then((result) => {
+                            file_paths = result.filePaths
+                            if (file_paths[0] !== undefined) {
+                                win.webContents.send("Open", file_paths[0])
                             }
-                        )
+                        })
                     }
                 },
                 {
@@ -68,15 +67,14 @@ app.on('ready', function createWindow() {
                     accelerator: 'Ctrl+s',
                     click() {
                         dialog.showSaveDialog({
-                                title: "Save",
-                                filters: [{ name: 'Image', extensions: ['png', 'jpg'] }]
-                            },
-                            (save_path) => {
-                                if (save_path != undefined) {
-                                    win.webContents.send("Save", save_path)
-                                }
+                            title: "Save",
+                            filters: [{ name: 'Image', extensions: ['png', 'jpg'] }]
+                        }).then((result) => {
+                            save_path = result.filePath
+                            if (save_path != undefined) {
+                                win.webContents.send("Save", save_path)
                             }
-                        )
+                        })
                     }
                 },
                 {
