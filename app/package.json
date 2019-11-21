@@ -1,6 +1,6 @@
 {
-    "name": "Electron_Viewer",
-    "version": "2.0.0",
+    "name": "rview",
+    "version": "1.0.0",
     "description": "",
     "main": "main.js",
     "scripts": {
