@@ -16,12 +16,12 @@
     "author": "ashwin",
     "license": "MIT",
     "devDependencies": {
-        "electron": "^2.0.1",
-        "electron-builder": "^20.15.1",
-        "electron-packager": "^12.0.2"
+        "electron": "^7.1.2",
+        "electron-builder": "^21.2.0",
+        "electron-packager": "^14.1.0"
     },
     "dependencies": {
-        "mousetrap": "^1.6.1",
-        "trash": "^4.3.0"
+        "mousetrap": "^1.6.3",
+        "trash": "^6.1.1"
     }
 }
