@@ -1,4 +1,4 @@
-# Electron Viewer
+# rview
 
 A simple electron app for viewing images.
 
