@@ -423,3 +423,6 @@ document.getElementById('delete').addEventListener('click', (e) => {
 document.getElementById('fullscreen').addEventListener('click', (e) => {
     ipcRenderer.send('toggle_fullscreen')
 })
+document.getElementById('image').addEventListener('dblclick', (e) => {
+    Image.Reset()
+})
