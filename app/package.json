@@ -10,6 +10,9 @@
         "dist": "electron-builder"
     },
     "build": {
+        "directories": {
+            "output": "build"
+        },
         "icon": "assets/icons/main_icon.ico",
         "win": {
             "target": "appx"

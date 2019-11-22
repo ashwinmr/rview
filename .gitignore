@@ -1,5 +1,5 @@
 /app/node_modules/
-/app/dist/
+/app/build/
 *.zip
 *.lnk
 temp/
