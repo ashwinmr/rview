@@ -11,7 +11,8 @@
     },
     "build": {
         "directories": {
-            "output": "build"
+            "output": "build",
+            "buildResources": "build_resources"
         },
         "icon": "assets/icons/main_icon.ico",
         "win": {
