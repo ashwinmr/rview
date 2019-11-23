@@ -1,18 +1,31 @@
 {
     "name": "app",
     "version": "1.0.0",
-    "description": " ",
+    "description": "Description",
     "repository": {},
     "main": "main.js",
     "scripts": {
         "install": "cmake-js compile",
         "start": "electron .",
-        "package": "electron-packager . --asar --overwrite=true --icon=assets/icons/main_icon.ico",
-        "dist": "electron-builder",
-        "pack": "electron-builder --dir"
+        "packager": "electron-packager . --asar --overwrite=true --icon=assets/icons/main_icon.ico",
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder"
     },
     "build": {
-        "icon": "assets/icons/main_icon.ico"
+        "directories": {
+            "output": "build",
+            "buildResources": "build_resources"
+        },
+        "icon": "assets/icons/main_icon.ico",
+        "win": {
+            "target": "appx"
+        },
+        "appx": {
+            "identityName": "000pub.app",
+            "publisher": "CN=000",
+            "publisherDisplayName": "pub",
+            "applicationId": "app"
+        }
     },
     "keywords": [],
     "author": "",

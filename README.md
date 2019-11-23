@@ -20,12 +20,12 @@ or
 download from release tab
 ```
 
-# Create installer
+# Build
 ```
 cd app
-yarn dist
+npm run dist
 ```
-The installer will be found in `app/dist`
+The installer will be found in `app/build`
 
 # To-Do
 
