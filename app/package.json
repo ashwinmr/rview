@@ -35,9 +35,9 @@
     },
     "devDependencies": {
         "cmake-js": "^6.0.0",
-        "electron": "^6.0.10",
+        "electron": "^7.1.2",
         "electron-builder": "^21.2.0",
-        "electron-packager": "^14.0.6",
-        "electron-rebuild": "^1.8.6"
+        "electron-packager": "^14.1.1",
+        "electron-rebuild": "^1.8.8"
     }
 }
