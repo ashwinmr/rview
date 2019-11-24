@@ -18,6 +18,9 @@
         "win": {
             "target": "appx"
         },
+        "linux":{
+            "category": "Graphics"
+        },
         "appx": {
             "identityName": "37353raotech.rview",
             "publisher": "CN=FCA45FA4-92B8-42C6-A970-7C1960C49FB5",
