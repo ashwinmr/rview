@@ -5,7 +5,7 @@
     "main": "main.js",
     "scripts": {
         "start": "electron .",
-        "packager": "electron-packager . --asar --overwrite=true --icon=assets/icons/main_icon.ico",
+        "packager": "electron-packager . --asar --overwrite=true --icon=build_resources/icons/main_icon.png",
         "pack": "electron-builder --dir",
         "dist": "electron-builder"
     },
@@ -14,7 +14,7 @@
             "output": "build",
             "buildResources": "build_resources"
         },
-        "icon": "assets/icons/main_icon.ico",
+        "icon": "build_resources/icons/main_icon.png",
         "win": {
             "target": "appx"
         },
