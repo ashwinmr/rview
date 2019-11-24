@@ -29,7 +29,7 @@
         }
     },
     "keywords": [],
-    "author": "ashwin",
+    "author": "raotech",
     "license": "MIT",
     "devDependencies": {
         "electron": "^7.1.2",
