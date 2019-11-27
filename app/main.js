@@ -3,8 +3,8 @@ const path = require('path')
 const url = require('url')
 
 // Use the example cpp addon
-// const example_addon = require('./build/Release/example_addon.node');
-// console.log('cpp addon: ', example_addon.hello("from cpp"));
+const example_addon = require('./build/Release/example_addon.node');
+console.log('cpp addon: ', example_addon.hello("from cpp"));
 
 // Start the program when app is ready
 app.on('ready', function createWindow() {

@@ -16,6 +16,10 @@
             "output": "build",
             "buildResources": "build_resources"
         },
+        "files": [
+            "**/*",
+            "build/Release"
+        ],
         "icon": "build_resources/icons/main_icon.png",
         "win": {
             "target": "appx",
