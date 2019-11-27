@@ -5,7 +5,7 @@ const url = require('url')
 
 // Debug options
 const Debug = {
-    DevTool: true,
+    DevTool: false,
 }
 
 // Set fullscreen
