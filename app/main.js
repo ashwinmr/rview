@@ -3,6 +3,11 @@ const fs = require('fs')
 const path = require('path')
 const url = require('url')
 
+// Debug options
+const Debug = {
+    DevTool: true,
+}
+
 // Set fullscreen
 function Set_Fullscreen(set_val) {
     if (set_val) {
@@ -17,11 +22,10 @@ function Set_Fullscreen(set_val) {
 }
 
 // Check if path is file
-function Is_File(path){
-    if(fs.existsSync(path) && fs.lstatSync(path).isFile()){
+function Is_File(path) {
+    if (fs.existsSync(path) && fs.lstatSync(path).isFile()) {
         return true;
-    }
-    else{
+    } else {
         return false;
     }
 }
@@ -177,6 +181,8 @@ app.on('ready', function createWindow() {
             submenu: [{
                 label: 'DevTool',
                 accelerator: 'Ctrl+D',
+                enabled: Debug.DevTool,
+                visible: Debug.DevTool,
                 click() {
                     win.webContents.toggleDevTools()
                 }
@@ -192,7 +198,7 @@ app.on('ready', function createWindow() {
 
         // Handle loading of file when opened with electron
         let path_arg = process.argv[1]
-        if(Is_File(path_arg)){
+        if (Is_File(path_arg)) {
             win.webContents.send("Open", path_arg)
         }
 
