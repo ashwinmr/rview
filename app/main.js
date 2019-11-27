@@ -16,6 +16,16 @@ function Set_Fullscreen(set_val) {
     }
 }
 
+// Check if path is file
+function Is_File(path){
+    if(fs.existsSync(path) && fs.lstatSync(path).isFile()){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 // Toggle fullscreen
 function Toggle_Fullscreen(win) {
     if (win.isFullScreen()) {
@@ -55,7 +65,7 @@ app.on('ready', function createWindow() {
                             title: "Open",
                         }).then((result) => {
                             file_paths = result.filePaths
-                            if (file_paths[0] !== undefined) {
+                            if (Is_File(file_paths[0])) {
                                 win.webContents.send("Open", file_paths[0])
                             }
                         })
@@ -182,7 +192,7 @@ app.on('ready', function createWindow() {
 
         // Handle loading of file when opened with electron
         let path_arg = process.argv[1]
-        if (path_arg !== '.' && path_arg !== undefined) {
+        if(Is_File(path_arg)){
             win.webContents.send("Open", path_arg)
         }
 
