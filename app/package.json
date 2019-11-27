@@ -28,7 +28,10 @@
             "publisher": "CN=FCA45FA4-92B8-42C6-A970-7C1960C49FB5",
             "publisherDisplayName": "raotech",
             "applicationId": "rview"
-        }
+        },
+        "fileAssociations": [{
+            "ext": ["jpg", "jpeg", "gif", "png", "apng", "svg", "bmp", "ico"]
+        }]
     },
     "keywords": [],
     "author": "raotech",
