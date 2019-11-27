@@ -29,9 +29,32 @@
             "publisherDisplayName": "raotech",
             "applicationId": "rview"
         },
-        "fileAssociations": [{
-            "ext": ["jpg", "jpeg", "gif", "png", "apng", "svg", "bmp", "ico"]
-        }]
+        "fileAssociations": [
+            {
+                "ext": "jpg"
+            },
+            {
+                "ext": "jpeg"
+            },
+            {
+                "ext": "gif"
+            },
+            {
+                "ext": "png"
+            },
+            {
+                "ext": "apng"
+            },
+            {
+                "ext": "svg"
+            },
+            {
+                "ext": "bmp"
+            },
+            {
+                "ext": "ico"
+            }
+        ]
     },
     "keywords": [],
     "author": "raotech",
