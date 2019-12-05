@@ -18,7 +18,10 @@
         "win": {
             "target": "appx",
             "certificateFile": "build_resources/selfsigncert.pfx",
-            "certificatePassword": "password"
+            "certificatePassword": "password",
+            "fileAssociations": [{
+                "ext": ["jpg", "jpeg", "gif", "png", "apng", "svg", "bmp", "ico"]
+            }]
         },
         "linux": {
             "category": "Graphics"
@@ -28,33 +31,7 @@
             "publisher": "CN=FCA45FA4-92B8-42C6-A970-7C1960C49FB5",
             "publisherDisplayName": "raotech",
             "applicationId": "rview"
-        },
-        "fileAssociations": [
-            {
-                "ext": "jpg"
-            },
-            {
-                "ext": "jpeg"
-            },
-            {
-                "ext": "gif"
-            },
-            {
-                "ext": "png"
-            },
-            {
-                "ext": "apng"
-            },
-            {
-                "ext": "svg"
-            },
-            {
-                "ext": "bmp"
-            },
-            {
-                "ext": "ico"
-            }
-        ]
+        }
     },
     "keywords": [],
     "author": "raotech",
