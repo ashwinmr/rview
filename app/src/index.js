@@ -292,6 +292,11 @@ document.addEventListener('mousedown', (e) => {
     Image.Drag_Start.Y = e.y
     Image.Clicked = true
 })
+document.addEventListener('touchstart', (e) => {
+    Image.Drag_Start.X = e.targetTouches[0].clientX
+    Image.Drag_Start.Y = e.targetTouches[0].clientY
+    Image.Clicked = true
+})
 document.addEventListener('mousemove', (e) => {
     if (Image.Clicked) {
         Image.Move(e.x - Image.Drag_Start.X, e.y - Image.Drag_Start.Y)
@@ -299,7 +304,19 @@ document.addEventListener('mousemove', (e) => {
         Image.Drag_Start.Y = e.y
     }
 })
+document.addEventListener('touchmove', (e) => {
+    if (Image.Clicked) {
+        let offset_x = e.targetTouches[0].clientX - Image.Drag_Start.X
+        let offset_y = e.targetTouches[0].clientY - Image.Drag_Start.Y
+        Image.Move(offset_x, offset_y)
+        Image.Drag_Start.X = e.targetTouches[0].clientX
+        Image.Drag_Start.Y = e.targetTouches[0].clientY
+    }
+})
 document.addEventListener('mouseup', (e) => {
+    Image.Clicked = false
+})
+document.addEventListener('touchend', (e) => {
     Image.Clicked = false
 })
 
