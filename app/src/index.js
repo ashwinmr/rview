@@ -305,21 +305,15 @@ document.addEventListener('mouseup', (e) => {
 
 // Handle drag move using touch
 document.addEventListener('touchstart', (e) => {
-    Image.Drag_Start.X = e.targetTouches[0].clientX
-    Image.Drag_Start.Y = e.targetTouches[0].clientY
-    Image.Clicked = true
+    Image.Drag_Start.X = e.touches[0].clientX
+    Image.Drag_Start.Y = e.touches[0].clientY
 })
 document.addEventListener('touchmove', (e) => {
-    if (Image.Clicked) {
-        let offset_x = e.targetTouches[0].clientX - Image.Drag_Start.X
-        let offset_y = e.targetTouches[0].clientY - Image.Drag_Start.Y
-        Image.Move(offset_x, offset_y)
-        Image.Drag_Start.X = e.targetTouches[0].clientX
-        Image.Drag_Start.Y = e.targetTouches[0].clientY
-    }
-})
-document.addEventListener('touchend', (e) => {
-    Image.Clicked = false
+    let offset_x = e.touches[0].clientX - Image.Drag_Start.X
+    let offset_y = e.touches[0].clientY - Image.Drag_Start.Y
+    Image.Move(offset_x, offset_y)
+    Image.Drag_Start.X = e.touches[0].clientX
+    Image.Drag_Start.Y = e.touches[0].clientY
 })
 
 // Handle scroll zoom
