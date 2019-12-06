@@ -306,8 +306,13 @@ document.addEventListener('mouseup', (e) => {
 
 // Handle drag move using touch
 document.addEventListener('touchstart', (e) => {
-    Image.Drag_Start.X = e.touches[0].clientX
-    Image.Drag_Start.Y = e.touches[0].clientY
+    if (e.touches.length == 1) {
+        Image.Drag_Start.X = e.touches[0].clientX
+        Image.Drag_Start.Y = e.touches[0].clientY
+    } else {
+        Image.Drag_Start.X = (e.touches[0].clientX + e.touches[1].clientX) / 2
+        Image.Drag_Start.Y = (e.touches[0].clientY + e.touches[1].clientY) / 2
+    }
 })
 document.addEventListener('touchend', (e) => {
     // If there is still a touch left, it is the new dragstart
@@ -318,11 +323,23 @@ document.addEventListener('touchend', (e) => {
     }
 })
 document.addEventListener('touchmove', (e) => {
-    let offset_x = e.touches[0].clientX - Image.Drag_Start.X
-    let offset_y = e.touches[0].clientY - Image.Drag_Start.Y
+    let offset_x
+    let offset_y
+    if (e.touches.length == 1) {
+        offset_x = e.touches[0].clientX - Image.Drag_Start.X
+        offset_y = e.touches[0].clientY - Image.Drag_Start.Y
+    } else {
+        offset_x = (e.touches[0].clientX + e.touches[1].clientX) / 2 - Image.Drag_Start.X
+        offset_y = (e.touches[0].clientY + e.touches[1].clientY) / 2 - Image.Drag_Start.Y
+    }
     Image.Move(offset_x, offset_y)
-    Image.Drag_Start.X = e.touches[0].clientX
-    Image.Drag_Start.Y = e.touches[0].clientY
+    if (e.touches.length == 1) {
+        Image.Drag_Start.X = e.touches[0].clientX
+        Image.Drag_Start.Y = e.touches[0].clientY
+    } else {
+        Image.Drag_Start.X = (e.touches[0].clientX + e.touches[1].clientX) / 2
+        Image.Drag_Start.Y = (e.touches[0].clientY + e.touches[1].clientY) / 2
+    }
 })
 
 // Handle scroll zoom
@@ -339,7 +356,7 @@ document.addEventListener('mousewheel', (e) => {
 
 // Handle pinch zoom
 document.addEventListener('touchstart', (e) => {
-    if (e.touches.length == 2) {
+    if (e.touches.length > 1) {
         Image.Pinch_Start.X1 = e.touches[0].clientX
         Image.Pinch_Start.Y1 = e.touches[0].clientY
         Image.Pinch_Start.X2 = e.touches[1].clientX
@@ -348,7 +365,7 @@ document.addEventListener('touchstart', (e) => {
     }
 })
 document.addEventListener('touchmove', (e) => {
-    if (e.touches.length == 2) {
+    if (e.touches.length > 1) {
         let l_start = Math.sqrt(Math.pow(Image.Pinch_Start.X2 - Image.Pinch_Start.X1, 2) + Math.pow(Image.Pinch_Start.Y2 - Image.Pinch_Start.Y1, 2))
         let l_end = Math.sqrt(Math.pow(e.touches[1].clientX - e.touches[0].clientX, 2) + Math.pow(e.touches[1].clientY - e.touches[0].clientY, 2))
         let factor = l_end / l_start
