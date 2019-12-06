@@ -308,6 +308,14 @@ document.addEventListener('touchstart', (e) => {
     Image.Drag_Start.X = e.touches[0].clientX
     Image.Drag_Start.Y = e.touches[0].clientY
 })
+document.addEventListener('touchend', (e) => {
+    // If there is still a touch left, it is the new dragstart
+    // This prevents move due to multitouch
+    if (e.touches.length > 0) {
+        Image.Drag_Start.X = e.touches[0].clientX
+        Image.Drag_Start.Y = e.touches[0].clientY
+    }
+})
 document.addEventListener('touchmove', (e) => {
     let offset_x = e.touches[0].clientX - Image.Drag_Start.X
     let offset_y = e.touches[0].clientY - Image.Drag_Start.Y
