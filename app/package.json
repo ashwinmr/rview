@@ -22,7 +22,17 @@
             }]
         },
         "linux": {
-            "category": "Graphics"
+            "category": "Graphics",
+            "fileAssociations": [
+                {"ext": "jpg"},
+                {"ext": "jpeg"},
+                {"ext": "gif"},
+                {"ext": "png"},
+                {"ext": "apng"},
+                {"ext": "svg"},
+                {"ext": "bmp"},
+                {"ext": "ico"}
+            ]
         },
         "appx": {
             "identityName": "37353raotech.rview",
