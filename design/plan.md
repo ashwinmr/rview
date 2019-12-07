@@ -1,5 +1,5 @@
 # Required features
 
-## Funcationality
+## Functionality
 
 ## Interface
