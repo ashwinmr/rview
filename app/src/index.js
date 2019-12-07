@@ -361,7 +361,7 @@ document.addEventListener('touchstart', (e) => {
         Image.Pinch_Start.Y1 = e.touches[0].clientY
         Image.Pinch_Start.X2 = e.touches[1].clientX
         Image.Pinch_Start.Y2 = e.touches[1].clientY
-        Image.Pinch_Start.Scale = Image.Scale.X
+        Image.Pinch_Start.Scale = Math.abs(Image.Scale.X)
     }
 })
 document.addEventListener('touchmove', (e) => {
@@ -370,7 +370,7 @@ document.addEventListener('touchmove', (e) => {
         let l_end = Math.sqrt(Math.pow(e.touches[1].clientX - e.touches[0].clientX, 2) + Math.pow(e.touches[1].clientY - e.touches[0].clientY, 2))
         let factor = l_end / l_start
 
-        let increment = factor * Image.Pinch_Start.Scale - Image.Scale.X
+        let increment = factor * Image.Pinch_Start.Scale - Math.abs(Image.Scale.X)
 
         let center = { x: (e.touches[0].clientX + e.touches[1].clientX) / 2, y: (e.touches[0].clientY + e.touches[1].clientY) / 2 }
 
