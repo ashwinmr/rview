@@ -45,6 +45,7 @@ app.on('ready', function createWindow() {
     win = new BrowserWindow({
         show: false, // Show and mazimize later
         icon: path.join(__dirname, 'assets', 'icons', 'main_icon.png'),
+        title: app.name,
         webPreferences: {
             nodeIntegration: true
         }
