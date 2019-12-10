@@ -179,14 +179,18 @@ app.on('ready', function createWindow() {
             label: 'Help',
             // Allow opening browser dev tool
             submenu: [{
-                label: 'DevTool',
-                accelerator: 'Ctrl+D',
-                enabled: Debug.DevTool,
-                visible: Debug.DevTool,
-                click() {
-                    win.webContents.toggleDevTools()
+                    label: 'DevTool',
+                    accelerator: 'Ctrl+D',
+                    enabled: Debug.DevTool,
+                    visible: Debug.DevTool,
+                    click() {
+                        win.webContents.toggleDevTools()
+                    }
+                },
+                {
+                    label: app.name + ' version ' + app.getVersion(),
                 }
-            }]
+            ]
         }
     ])
 
