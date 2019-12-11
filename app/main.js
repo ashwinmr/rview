@@ -18,6 +18,7 @@ app.on('ready', function createWindow() {
         title: app.name,
         show: false, // Show and maximize later
         icon: path.join(__dirname, 'assets', 'icons', 'main_icon.png'),
+        useContentSize: true,
         resizable: true,
         webPreferences: {
             nodeIntegration: true
