@@ -43,7 +43,7 @@ class File_C {
         this.Dir = path.dirname(file_path)
         this.Name = path.basename(file_path)
         this.Index = this.List.indexOf(this.Name)
-        document.getElementById('title').innerHTML = this.Name
+        document.title = this.Name
 
         // Display the image
         Image.Display(file_path)

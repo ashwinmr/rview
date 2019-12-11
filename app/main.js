@@ -45,6 +45,7 @@ app.on('ready', function createWindow() {
     win = new BrowserWindow({
         show: false, // Show and mazimize later
         icon: path.join(__dirname, 'assets', 'icons', 'main_icon.png'),
+        title: app.name,
         webPreferences: {
             nodeIntegration: true
         }
@@ -179,14 +180,18 @@ app.on('ready', function createWindow() {
             label: 'Help',
             // Allow opening browser dev tool
             submenu: [{
-                label: 'DevTool',
-                accelerator: 'Ctrl+D',
-                enabled: Debug.DevTool,
-                visible: Debug.DevTool,
-                click() {
-                    win.webContents.toggleDevTools()
+                    label: 'DevTool',
+                    accelerator: 'Ctrl+D',
+                    enabled: Debug.DevTool,
+                    visible: Debug.DevTool,
+                    click() {
+                        win.webContents.toggleDevTools()
+                    }
+                },
+                {
+                    label: app.name + ' version ' + app.getVersion(),
                 }
-            }]
+            ]
         }
     ])
 
