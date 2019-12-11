@@ -43,7 +43,7 @@ class File_C {
         this.Dir = path.dirname(file_path)
         this.Name = path.basename(file_path)
         this.Index = this.List.indexOf(this.Name)
-        document.getElementById('title').innerHTML = this.Name
+        document.title = this.Name
 
         // Display the image
         Image.Display(file_path)
@@ -112,6 +112,7 @@ class Image_C {
         this.Height_Cont = 0 // Width as seen by document flow
         this.Clicked = false
         this.Drag_Start = { X: 0, Y: 0 }
+        this.Pinch_Start = { Scale: 1, X1: 0, Y1: 0, X2: 0, Y2: 0 }
         this.Angle = 0
         this.Format_List = [
             '.jpg',
@@ -286,7 +287,7 @@ document.addEventListener('drop', (e) => {
     }
 })
 
-// Handle drag move
+// Handle drag move using mouse
 document.addEventListener('mousedown', (e) => {
     Image.Drag_Start.X = e.x
     Image.Drag_Start.Y = e.y
@@ -303,6 +304,44 @@ document.addEventListener('mouseup', (e) => {
     Image.Clicked = false
 })
 
+// Handle drag move using touch
+document.addEventListener('touchstart', (e) => {
+    if (e.touches.length == 1) {
+        Image.Drag_Start.X = e.touches[0].clientX
+        Image.Drag_Start.Y = e.touches[0].clientY
+    } else {
+        Image.Drag_Start.X = (e.touches[0].clientX + e.touches[1].clientX) / 2
+        Image.Drag_Start.Y = (e.touches[0].clientY + e.touches[1].clientY) / 2
+    }
+})
+document.addEventListener('touchend', (e) => {
+    // If there is still a touch left, it is the new dragstart
+    // This prevents move due to multitouch
+    if (e.touches.length > 0) {
+        Image.Drag_Start.X = e.touches[0].clientX
+        Image.Drag_Start.Y = e.touches[0].clientY
+    }
+})
+document.addEventListener('touchmove', (e) => {
+    let offset_x
+    let offset_y
+    if (e.touches.length == 1) {
+        offset_x = e.touches[0].clientX - Image.Drag_Start.X
+        offset_y = e.touches[0].clientY - Image.Drag_Start.Y
+    } else {
+        offset_x = (e.touches[0].clientX + e.touches[1].clientX) / 2 - Image.Drag_Start.X
+        offset_y = (e.touches[0].clientY + e.touches[1].clientY) / 2 - Image.Drag_Start.Y
+    }
+    Image.Move(offset_x, offset_y)
+    if (e.touches.length == 1) {
+        Image.Drag_Start.X = e.touches[0].clientX
+        Image.Drag_Start.Y = e.touches[0].clientY
+    } else {
+        Image.Drag_Start.X = (e.touches[0].clientX + e.touches[1].clientX) / 2
+        Image.Drag_Start.Y = (e.touches[0].clientY + e.touches[1].clientY) / 2
+    }
+})
+
 // Handle scroll zoom
 document.addEventListener('mousewheel', (e) => {
     let rate = e.deltaY
@@ -312,6 +351,34 @@ document.addEventListener('mousewheel', (e) => {
         Image.Zoom(-1, rate * multiplier, pos)
     } else {
         Image.Zoom(1, rate * multiplier, pos)
+    }
+})
+
+// Handle pinch zoom
+document.addEventListener('touchstart', (e) => {
+    if (e.touches.length > 1) {
+        Image.Pinch_Start.X1 = e.touches[0].clientX
+        Image.Pinch_Start.Y1 = e.touches[0].clientY
+        Image.Pinch_Start.X2 = e.touches[1].clientX
+        Image.Pinch_Start.Y2 = e.touches[1].clientY
+        Image.Pinch_Start.Scale = Math.abs(Image.Scale.X)
+    }
+})
+document.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 1) {
+        let l_start = Math.sqrt(Math.pow(Image.Pinch_Start.X2 - Image.Pinch_Start.X1, 2) + Math.pow(Image.Pinch_Start.Y2 - Image.Pinch_Start.Y1, 2))
+        let l_end = Math.sqrt(Math.pow(e.touches[1].clientX - e.touches[0].clientX, 2) + Math.pow(e.touches[1].clientY - e.touches[0].clientY, 2))
+        let factor = l_end / l_start
+
+        let increment = factor * Image.Pinch_Start.Scale - Math.abs(Image.Scale.X)
+
+        let center = { x: (e.touches[0].clientX + e.touches[1].clientX) / 2, y: (e.touches[0].clientY + e.touches[1].clientY) / 2 }
+
+        if (increment > 0) {
+            Image.Zoom(1, increment, center)
+        } else {
+            Image.Zoom(-1, increment, center)
+        }
     }
 })
 

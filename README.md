@@ -27,8 +27,3 @@ download from release tab
 cd app
 npm run dist
 ```
-
-# To-Do
-
-- [ ] Support for other operating systems
-- [ ] Save images with transformations
