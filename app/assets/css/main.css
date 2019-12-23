@@ -1,5 +1,6 @@
 ﻿body {
     overflow: hidden;
+    margin: 0;
 }
 
 #image_cont {
@@ -20,12 +21,13 @@
 
 #btn_bar {
     user-select: none;
+    height: 110px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
-    bottom: 2%;
-    left: 50%;
-    transform: translate(-50%);
-    white-space: nowrap;
-    padding: 25px;
+    bottom: 0;
 }
 
 .hover_show {
@@ -41,12 +43,16 @@ button {
     user-select: inherit;
     background-position: center;
     background-repeat: no-repeat;
+    background-color: initial;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
     cursor: pointer;
     border: none;
     outline: none;
     height: 40px;
     width: 40px;
-    margin: 5px 10px 5px 10px;
+    margin: 0px 15px 0px 15px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 button:hover {
@@ -61,41 +67,41 @@ button:active {
 /* Set image for each button */
 
 #next {
-    background: url(../ui/next_btn.svg);
+    background-image: url(../ui/next_btn.svg);
 }
 
 #previous {
-    background: url(../ui/previous_btn.svg);
+    background-image: url(../ui/previous_btn.svg);
 }
 
 #rotate_cw {
-    background: url(../ui/rotate_cw_btn.svg);
+    background-image: url(../ui/rotate_cw_btn.svg);
 }
 
 #fullscreen {
-    background: url(../ui/fullscreen_btn.svg);
+    background-image: url(../ui/fullscreen_btn.svg);
 }
 
 #flip_h {
-    background: url(../ui/flip_h_btn.svg);
+    background-image: url(../ui/flip_h_btn.svg);
 }
 
 #flip_v {
-    background: url(../ui/flip_v_btn.svg);
+    background-image: url(../ui/flip_v_btn.svg);
 }
 
 #zoom_in {
-    background: url(../ui/zoom_in_btn.svg);
+    background-image: url(../ui/zoom_in_btn.svg);
 }
 
 #zoom_out {
-    background: url(../ui/zoom_out_btn.svg);
+    background-image: url(../ui/zoom_out_btn.svg);
 }
 
 #reset {
-    background: url(../ui/reset_btn.svg);
+    background-image: url(../ui/reset_btn.svg);
 }
 
 #delete {
-    background: url(../ui/delete_btn.svg);
+    background-image: url(../ui/delete_btn.svg);
 }
