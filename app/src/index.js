@@ -262,8 +262,12 @@ function Copy() {
 // Set Fullscreen
 function Set_Fullscreen(set_val) {
     if (set_val) {
+        document.getElementById('image').style.setProperty('max-height', '100vh')
+        document.getElementById('image').style.setProperty('top', '50%')
         document.getElementById('btn_bar').classList.add('hover_show')
     } else {
+        document.getElementById('image').style.removeProperty('max-height')
+        document.getElementById('image').style.removeProperty('top')
         document.getElementById('btn_bar').classList.remove('hover_show')
     }
 }

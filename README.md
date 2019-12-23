@@ -2,7 +2,7 @@
 
 A simple electron app for viewing images.
 
-![rview](./screenshots/main.png)
+![rview](./screenshots/sc_1.png)
 
 # Features
 
