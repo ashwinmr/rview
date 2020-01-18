@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron')
+const { app, BrowserWindow, Menu, ipcMain, shell } = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -54,6 +54,13 @@ app.on('ready', function createWindow() {
                     visible: Debug.DevTool,
                     click() {
                         win.webContents.toggleDevTools()
+                    }
+                },
+                {
+                    label: 'Privacy Policy',
+                    click() {
+                        let link = 'https://www.google.com'
+                        shell.openExternal(link)
                     }
                 },
                 {
