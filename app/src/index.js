@@ -1,4 +1,5 @@
-﻿const { ipcRenderer, nativeImage, clipboard } = require('electron')
+﻿
+const { ipcRenderer, nativeImage, clipboard } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const mousetrap = require('mousetrap') // Can't be used in node. Only in browser

@@ -1,4 +1,4 @@
-const { app, Menu, dialog, globalShortcut, BrowserWindow, ipcMain } = require('electron')
+const { app, Menu, dialog, globalShortcut, BrowserWindow, ipcMain, shell } = require('electron')
 const fs = require('fs')
 const path = require('path')
 const url = require('url')
@@ -43,9 +43,11 @@ function Toggle_Fullscreen(win) {
 app.on('ready', function createWindow() {
     // Create the browser window.
     win = new BrowserWindow({
-        show: false, // Show and mazimize later
-        icon: path.join(__dirname, 'assets', 'icons', 'main_icon.png'),
         title: app.name,
+        show: false, // Show and maximize later
+        icon: path.join(__dirname, 'assets', 'icons', 'main_icon.png'),
+        useContentSize: true,
+        resizable: true,
         webPreferences: {
             nodeIntegration: true
         }
@@ -186,6 +188,13 @@ app.on('ready', function createWindow() {
                     visible: Debug.DevTool,
                     click() {
                         win.webContents.toggleDevTools()
+                    }
+                },
+                {
+                    label: 'Privacy Policy',
+                    click() {
+                        let link = 'https://raotech3.blogspot.com/2019/11/rview-privacy-policy.html'
+                        shell.openExternal(link)
                     }
                 },
                 {
