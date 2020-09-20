@@ -10,6 +10,53 @@ const Debug = {
     Cursor: false,
 }
 
+class SettingsClass {
+    constructor() {
+        this.theme = "Light"
+    }
+
+    save() {
+        let key = `settings`
+        let theme = this.theme
+        let settings = {
+            "theme": theme
+        }
+        localStorage.setItem(key, JSON.stringify(settings))
+    }
+
+    load() {
+        let key = `settings`
+        let settings = JSON.parse(localStorage.getItem(key))
+        if (settings) {
+            if (settings.theme !== undefined) {
+                this.theme = settings.theme
+            }
+        }
+        this.update()
+    }
+
+    setTheme(theme) {
+        this.theme = theme
+    }
+
+    update() {
+        // Reset
+        document.getElementById("body").style.backgroundColor = "white"
+
+        if (this.theme === "Dark") {
+            document.getElementById("body").style.backgroundColor = "black"
+        } else if (this.theme === "Sepia") {
+            document.getElementById("body").style.backgroundColor = "wheat"
+        } else {
+            this.setTheme("Light")
+        }
+
+        this.save()
+        ipcRenderer.send("Set_Theme", this.theme)
+    }
+}
+Settings = new SettingsClass
+
 // Create object to handle file
 class File_C {
 
@@ -396,6 +443,9 @@ if (Debug.Cursor) {
     })
 }
 
+// Load settings
+Settings.load()
+
 // Handle resizing the window
 window.addEventListener('resize', (e) => {
     Image.Update()
@@ -451,6 +501,10 @@ ipcRenderer.on("Delete", (e) => {
 })
 ipcRenderer.on('Set_Fullscreen', (e, set_val) => {
     Set_Fullscreen(set_val)
+})
+ipcRenderer.on('Set_Theme', (e, theme) => {
+    Settings.setTheme(theme)
+    Settings.update()
 })
 
 // Add keyboard shortcuts 
