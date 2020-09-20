@@ -62,151 +62,180 @@ app.on('ready', function createWindow() {
 
     // Create the menu
     const menu = Menu.buildFromTemplate([{
-            label: 'File',
-            submenu: [{
-                    // Open dialog
-                    label: 'Open',
-                    accelerator: 'Ctrl+o',
-                    click() {
-                        dialog.showOpenDialog({
-                            title: "Open",
-                        }).then((result) => {
-                            file_paths = result.filePaths
-                            if (Is_File(file_paths[0])) {
-                                win.webContents.send("Open", file_paths[0])
-                            }
-                        })
+        label: 'File',
+        submenu: [{
+            // Open dialog
+            label: 'Open',
+            accelerator: 'Ctrl+o',
+            click() {
+                dialog.showOpenDialog({
+                    title: "Open",
+                }).then((result) => {
+                    file_paths = result.filePaths
+                    if (Is_File(file_paths[0])) {
+                        win.webContents.send("Open", file_paths[0])
                     }
-                },
-                {
-                    // Save dialog
-                    label: 'Save',
-                    accelerator: 'Ctrl+s',
-                    click() {
-                        dialog.showSaveDialog({
-                            title: "Save",
-                            filters: [{ name: 'Image', extensions: ['png', 'jpg'] }]
-                        }).then((result) => {
-                            save_path = result.filePath
-                            if (save_path != undefined) {
-                                win.webContents.send("Save", save_path)
-                            }
-                        })
-                    }
-                },
-                {
-                    // Delete
-                    label: 'Delete',
-                    accelerator: 'delete',
-                    click() {
-                        win.webContents.send("Delete")
-                    }
-                },
-                {
-                    // Exit
-                    label: 'Quit',
-                    accelerator: 'ctrl+q',
-                    click() {
-                        win.close()
-                    }
-                }
-            ]
-
+                })
+            }
         },
         {
-            label: 'Edit',
-            // Options to edit the image
-            submenu: [{
-                    label: 'Copy',
-                    click() { win.webContents.send('Copy') },
-                    // Ctrl + C accelerator doesn't work. For show. Implement elsewhere
-                    accelerator: 'Ctrl+C'
-                },
-                {
-                    label: 'Paste',
-                    click() { win.webContents.send('Paste') },
-                    // Ctrl + C accelerator doesn't work. For show. Implement elsewhere
-                    accelerator: 'Ctrl+V'
-                },
-                {
-                    label: 'Next',
-                    click() { win.webContents.send('Next') },
-                    accelerator: 'Right'
-                },
-                {
-                    label: 'Previous',
-                    click() { win.webContents.send('Previous') },
-                    accelerator: 'Left'
-                },
-                {
-                    label: 'Zoom In',
-                    click() { win.webContents.send('Zoom_In') },
-                    accelerator: 'Ctrl+Plus'
-                },
-                {
-                    label: 'Zoom Out',
-                    click() { win.webContents.send('Zoom_Out') },
-                    accelerator: 'Ctrl+-'
-                },
-                {
-                    label: 'Reset',
-                    click() {
-                        Set_Fullscreen(false)
-                        win.webContents.send('Reset')
-                    },
-                    accelerator: 'Esc'
-                },
-                {
-                    label: 'Flip Horizontal',
-                    click() { win.webContents.send('Flip_Horizontal') },
-                    accelerator: 'Ctrl+F'
-                },
-                {
-                    label: 'Flip Vertical',
-                    click() { win.webContents.send('Flip_Vertical') },
-                    accelerator: 'Shift+F'
-                },
-                {
-                    label: 'Rotate Clockwise',
-                    click() { win.webContents.send('Rotate_CW') },
-                    accelerator: 'Ctrl+R'
-                },
-                {
-                    label: 'Toggle Fullscreen',
-                    click() { Toggle_Fullscreen(win) },
-                    accelerator: 'F11'
-                },
-                {
-                    label: 'Toggle Dark Mode',
-                    click() { win.webContents.send('Toggle_Dark_Mode') },
-                    accelerator: 'F2'
-                },
-            ]
+            // Save dialog
+            label: 'Save',
+            accelerator: 'Ctrl+s',
+            click() {
+                dialog.showSaveDialog({
+                    title: "Save",
+                    filters: [{ name: 'Image', extensions: ['png', 'jpg'] }]
+                }).then((result) => {
+                    save_path = result.filePath
+                    if (save_path != undefined) {
+                        win.webContents.send("Save", save_path)
+                    }
+                })
+            }
         },
         {
-            label: 'Help',
-            // Allow opening browser dev tool
-            submenu: [{
-                    label: 'DevTool',
-                    accelerator: 'Ctrl+D',
-                    enabled: Debug.DevTool,
-                    visible: Debug.DevTool,
-                    click() {
-                        win.webContents.toggleDevTools()
-                    }
-                },
-                {
-                    label: 'Privacy Policy',
-                    click() {
-                        let link = 'https://raotech3.blogspot.com/2019/11/rview-privacy-policy.html'
-                        shell.openExternal(link)
-                    }
-                },
-                {
-                    label: app.name + ' version ' + app.getVersion(),
-                }
-            ]
+            // Delete
+            label: 'Delete',
+            accelerator: 'delete',
+            click() {
+                win.webContents.send("Delete")
+            }
+        },
+        {
+            // Exit
+            label: 'Quit',
+            accelerator: 'ctrl+q',
+            click() {
+                win.close()
+            }
         }
+        ]
+
+    },
+    {
+        label: 'Edit',
+        // Options to edit the image
+        submenu: [{
+            label: 'Copy',
+            click() { win.webContents.send('Copy') },
+            // Ctrl + C accelerator doesn't work. For show. Implement elsewhere
+            accelerator: 'Ctrl+C'
+        },
+        {
+            label: 'Paste',
+            click() { win.webContents.send('Paste') },
+            // Ctrl + C accelerator doesn't work. For show. Implement elsewhere
+            accelerator: 'Ctrl+V'
+        },
+        {
+            label: 'Zoom In',
+            click() { win.webContents.send('Zoom_In') },
+            accelerator: 'Ctrl+Plus'
+        },
+        {
+            label: 'Zoom Out',
+            click() { win.webContents.send('Zoom_Out') },
+            accelerator: 'Ctrl+-'
+        },
+        {
+            label: 'Flip Horizontal',
+            click() { win.webContents.send('Flip_Horizontal') },
+            accelerator: 'Ctrl+F'
+        },
+        {
+            label: 'Flip Vertical',
+            click() { win.webContents.send('Flip_Vertical') },
+            accelerator: 'Shift+F'
+        },
+        {
+            label: 'Rotate Clockwise',
+            click() { win.webContents.send('Rotate_CW') },
+            accelerator: 'Ctrl+R'
+        },
+        {
+            label: 'Reset',
+            click() {
+                Set_Fullscreen(false)
+                win.webContents.send('Reset')
+            },
+            accelerator: 'Esc'
+        },
+        ]
+    },
+    {
+        label: 'Navigate',
+        // Options to navigate
+        submenu: [{
+            label: 'Next',
+            click() { win.webContents.send('Next') },
+            accelerator: 'Right'
+        },
+        {
+            label: 'Previous',
+            click() { win.webContents.send('Previous') },
+            accelerator: 'Left'
+        },
+        ]
+    },
+    {
+        label: 'Appearance',
+        // View options
+        submenu: [
+            {
+                label: 'Theme',
+                // Theme options
+                submenu: [{
+                    label: 'Light',
+                    id: 'Theme_Light',
+                    click() { win.webContents.send('Set_Theme', "Light") },
+                    type: "radio",
+                },
+                {
+                    label: 'Dark',
+                    id: 'Theme_Dark',
+                    click() { win.webContents.send('Set_Theme', "Dark") },
+                    type: "radio",
+                },
+                {
+                    label: 'Sepia',
+                    id: 'Theme_Sepia',
+                    click() { win.webContents.send('Set_Theme', "Sepia") },
+                    type: "radio",
+                },
+                ]
+            },
+            {
+                label: 'Toggle Fullscreen',
+                click() { Toggle_Fullscreen(win) },
+                accelerator: 'F11'
+            },
+        ]
+    },
+    {
+        label: 'Help',
+        // Allow opening browser dev tool
+        submenu: [{
+            label: 'DevTool',
+            accelerator: 'Ctrl+D',
+            enabled: Debug.DevTool,
+            visible: Debug.DevTool,
+            click() {
+                win.webContents.toggleDevTools()
+            }
+        },
+        {
+            label: 'Privacy Policy',
+            click() {
+                let link = 'https://raotech3.blogspot.com/2019/11/rview-privacy-policy.html'
+                shell.openExternal(link)
+            }
+        },
+        {
+            label: app.name + ' version ' + app.getVersion(),
+        }
+        ]
+    }
     ])
 
     // Set menu
@@ -231,6 +260,16 @@ app.on('ready', function createWindow() {
         Toggle_Fullscreen(win)
     })
 
+    // Handle theme change response
+    ipcMain.on('Set_Theme', (e, theme) => {
+        if (theme === 'Dark') {
+            menu.getMenuItemById('Theme_Dark').checked = true
+        } else if (theme === 'Sepia') {
+            menu.getMenuItemById('Theme_Sepia').checked = true
+        } else {
+            menu.getMenuItemById('Theme_Light').checked = true
+        }
+    })
 })
 
 // Quit when all windows are closed.
