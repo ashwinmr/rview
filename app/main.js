@@ -176,6 +176,11 @@ app.on('ready', function createWindow() {
                     click() { Toggle_Fullscreen(win) },
                     accelerator: 'F11'
                 },
+                {
+                    label: 'Toggle Dark Mode',
+                    click() { win.webContents.send('Toggle_Dark_Mode') },
+                    accelerator: 'F2'
+                },
             ]
         },
         {

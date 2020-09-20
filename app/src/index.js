@@ -273,6 +273,18 @@ function Set_Fullscreen(set_val) {
     }
 }
 
+// Toggle Dark Mode
+function Toggle_Dark_Mode() {
+    let bg_color = document.getElementById("body").style.backgroundColor
+
+    if (bg_color != "black"){
+        document.getElementById("body").style.backgroundColor = "black"
+    }
+    else{
+        document.getElementById("body").style.backgroundColor = "white"
+    }
+}
+
 // Set callback functions
 
 // Handle update image properties after load
@@ -451,6 +463,9 @@ ipcRenderer.on("Delete", (e) => {
 })
 ipcRenderer.on('Set_Fullscreen', (e, set_val) => {
     Set_Fullscreen(set_val)
+})
+ipcRenderer.on('Toggle_Dark_Mode', (e) => {
+    Toggle_Dark_Mode()
 })
 
 // Add keyboard shortcuts 
