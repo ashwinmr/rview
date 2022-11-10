@@ -45,7 +45,7 @@
     "author": "raotech",
     "license": "MIT",
     "devDependencies": {
-        "electron": "^9.4.0",
+        "electron": "^18.3.7",
         "electron-builder": "^21.2.0",
         "electron-packager": "^14.1.0"
     },
